@@ -47,6 +47,8 @@ public enum GlobalServiceStatusCode {
     USER_TYPE_EXCEPTION(2101, "用户类别异常"),
 
     USER_NO_PERMISSION(2403, "用户无权限"),
+    USER_UN_AUTHORIZED(2404, "暂未登录或 token 无效"),
+
     USER_CAPTCHA_CODE_ERROR(2500, "验证码错误"),
     USER_USERNAME_PASSWORD_ERROR(2501, "用户名或密码错误"),
 
