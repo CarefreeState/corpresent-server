@@ -1,7 +1,6 @@
 package com.macaron.corpresent;
 
 import com.macaron.corpresent.common.constants.DateTimeConstants;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

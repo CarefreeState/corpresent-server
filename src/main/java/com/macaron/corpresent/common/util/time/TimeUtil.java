@@ -4,7 +4,8 @@ package com.macaron.corpresent.common.util.time;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static com.macaron.corpresent.common.constants.DateTimeConstants.*;
+import static com.macaron.corpresent.common.constants.DateTimeConstants.DATE_FORMAT;
+import static com.macaron.corpresent.common.constants.DateTimeConstants.DATE_TIME_FORMAT;
 
 /**
  * Created With Intellij IDEA

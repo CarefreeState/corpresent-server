@@ -4,7 +4,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
-import com.achobeta.common.enums.HttpRequestEnum;
+import com.macaron.corpresent.common.enums.HttpRequestEnum;
 import com.macaron.corpresent.common.util.convert.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

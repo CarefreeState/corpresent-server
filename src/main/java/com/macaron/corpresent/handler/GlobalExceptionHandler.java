@@ -18,7 +18,8 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.*;
+import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.PARAM_FAILED_VALIDATE;
+import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.SYSTEM_SERVICE_ERROR;
 
 
 /**
