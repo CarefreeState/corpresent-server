@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macaron.corpresent.domain.user.model.dao.mapper.ResourceCategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.macaron.corpresent.domain.user.model.entity.ResourceCategory">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="BIT"/>
+            <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+            <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+            <result property="isBlocked" column="is_blocked" jdbcType="BIT"/>
+            <result property="sort" column="sort" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,version,
+        is_deleted,create_time,update_time,
+        is_blocked,sort
+    </sql>
+</mapper>
