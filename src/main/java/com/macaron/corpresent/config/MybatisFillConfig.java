@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.time.LocalDateTime;
-
 /**
  * <span>
  * Mybatis fill config
@@ -28,8 +26,9 @@ public class MybatisFillConfig implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
-        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+        long currentTimeMillis = System.currentTimeMillis();
+        this.strictInsertFill(metaObject, "createTime", Long.class, currentTimeMillis);
+        this.strictUpdateFill(metaObject, "updateTime", Long.class, currentTimeMillis);
         this.strictInsertFill(metaObject, "version", Integer.class, 1);
         this.strictInsertFill(metaObject, "isDeleted", Boolean.class, Boolean.FALSE);
         this.strictInsertFill(metaObject, "isBlocked", Boolean.class, Boolean.FALSE);
@@ -38,7 +37,8 @@ public class MybatisFillConfig implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+        long currentTimeMillis = System.currentTimeMillis();
+        this.strictUpdateFill(metaObject, "updateTime", Long.class, currentTimeMillis);
     }
 
     //乐观锁

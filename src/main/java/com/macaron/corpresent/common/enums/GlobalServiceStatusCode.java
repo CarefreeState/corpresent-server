@@ -58,6 +58,9 @@ public enum GlobalServiceStatusCode {
     EMAIL_SEND_FAIL(3003, "邮箱发送失败"),
     EMAIL_ATTACH_SEND_FAIL(3004, "邮箱附件发送失败"),
 
+    EMAIL_NOT_EXIST_RECORD(3101, "邮箱不存在记录"),
+    EMAIL_CAPTCHA_CODE_COUNT_EXHAUST(3103, "申请次数达到上限"),
+
     /* 资源错误 7001-8000 */
     RESOURCE_LEVEL_NOT_EXISTS(7001, "资源权限不存在"),
     RESOURCE_NOT_EXISTS(7002, "资源不存在"),

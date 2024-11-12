@@ -1,9 +1,9 @@
 package com.macaron.corpresent.domain.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.macaron.corpresent.domain.user.model.dao.mapper.RoleResourceRelationMapper;
 import com.macaron.corpresent.domain.user.model.entity.RoleResourceRelation;
 import com.macaron.corpresent.domain.user.service.RoleResourceRelationService;
-import com.macaron.corpresent.domain.user.model.dao.mapper.RoleResourceRelationMapper;
 import org.springframework.stereotype.Service;
 
 /**

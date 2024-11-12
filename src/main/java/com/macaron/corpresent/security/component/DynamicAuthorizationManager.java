@@ -5,6 +5,7 @@ import com.macaron.corpresent.security.config.IgnoreUrlsConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -53,28 +54,33 @@ public class DynamicAuthorizationManager implements AuthorizationManager<Request
         if(request.getMethod().equals(HttpMethod.OPTIONS.name())){
             return new AuthorizationDecision(true);
         }
-        //权限校验逻辑
-        List<ConfigAttribute> configAttributeList = securityDataSource.getConfigAttributesWithPath(path);
-        // 约定大于配置，用特殊的规则，让权限校验与接口定义解耦
-        // needAuthorities 代表请求路径需要的权限，且只要有其中一个就可以访问
-        // 例如 /user/login 需要有 /user/login/**，但资源有 /** /user/** /user/login/**，这三个都是匹配 /user/login
-        // 用户有其中任何一个权限，则代表这个路径所匹配的路径的权限
-        // 比如用户有访问 /** 的权限，那自然能访问 /user/login
-        // 故能匹配本次请求路径，从逻辑上是说得通的
-        // 若此集合为空集合，则代表本次请求的资源不存在（哪怕存在这个接口，到这一步也无法判断出来，所以每个接口都应该在数据库里有记录）
-        List<String> needAuthorities = configAttributeList.stream()
-                .map(ConfigAttribute::getAttribute)
-                .collect(Collectors.toList());
-        Authentication currentAuth = authentication.get();
-        //判定是否已经实现登录认证
-        if(currentAuth.isAuthenticated()){
-            Collection<? extends GrantedAuthority> grantedAuthorities = currentAuth.getAuthorities();
-            List<? extends GrantedAuthority> hasAuth = grantedAuthorities.stream()
-                    .filter(item -> needAuthorities.contains(item.getAuthority()))
+        try{
+            //权限校验逻辑
+            List<ConfigAttribute> configAttributeList = securityDataSource.getConfigAttributesWithPath(path);
+            // 约定大于配置，用特殊的规则，让权限校验与接口定义解耦
+            // needAuthorities 代表请求路径需要的权限，且只要有其中一个就可以访问
+            // 例如 /user/login 需要有 /user/login/**，但资源有 /** /user/** /user/login/**，这三个都是匹配 /user/login
+            // 用户有其中任何一个权限，则代表这个路径所匹配的路径的权限
+            // 比如用户有访问 /** 的权限，那自然能访问 /user/login
+            // 故能匹配本次请求路径，从逻辑上是说得通的
+            // 若此集合为空集合，则代表本次请求的资源不存在（哪怕存在这个接口，到这一步也无法判断出来，所以每个接口都应该在数据库里有记录）
+            List<String> needAuthorities = configAttributeList.stream()
+                    .map(ConfigAttribute::getAttribute)
                     .collect(Collectors.toList());
-            return new AuthorizationDecision(CollUtil.isNotEmpty(hasAuth));
-        }else{
-            return new AuthorizationDecision(false);
+            Authentication currentAuth = authentication.get();
+            //判定是否已经实现登录认证
+            if(currentAuth.isAuthenticated()){
+                Collection<? extends GrantedAuthority> grantedAuthorities = currentAuth.getAuthorities();
+                List<? extends GrantedAuthority> hasAuth = grantedAuthorities.stream()
+                        .filter(item -> needAuthorities.contains(item.getAuthority()))
+                        .collect(Collectors.toList());
+                return new AuthorizationDecision(CollUtil.isNotEmpty(hasAuth));
+            }else{
+                return new AuthorizationDecision(false);
+            }
+        } catch(Exception e) {
+            throw new AccessDeniedException(e.getMessage()) {};
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.macaron.corpresent.filter;
+package com.macaron.corpresent.cors;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.*;

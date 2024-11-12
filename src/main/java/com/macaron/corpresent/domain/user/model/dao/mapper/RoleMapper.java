@@ -1,7 +1,7 @@
 package com.macaron.corpresent.domain.user.model.dao.mapper;
 
-import com.macaron.corpresent.domain.user.model.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.macaron.corpresent.domain.user.model.entity.Role;
 
 /**
 * @author 马拉圈

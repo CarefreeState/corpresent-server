@@ -1,5 +1,6 @@
 package com.macaron.corpresent.common.util.http;
 
+import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.media.MediaUtil;
 import jakarta.servlet.ServletOutputStream;
@@ -34,14 +35,16 @@ public class HttpServletUtil {
      * 获取本次请求的 HttpServletRequest 对象
      */
     public static HttpServletRequest getRequest() {
-        return getAttributes().map(ServletRequestAttributes::getRequest).orElseThrow(GlobalServiceException::new);
+        return getAttributes().map(ServletRequestAttributes::getRequest).orElseThrow(() ->
+                new GlobalServiceException(GlobalServiceStatusCode.REQUEST_NOT_VALID));
     }
 
     /**
      * 获取本次请求的 HttpServletResponse 对象
      */
     public static HttpServletResponse getResponse() {
-        return getAttributes().map(ServletRequestAttributes::getResponse).orElseThrow(GlobalServiceException::new);
+        return getAttributes().map(ServletRequestAttributes::getResponse).orElseThrow(() ->
+                new GlobalServiceException(GlobalServiceStatusCode.REQUEST_NOT_VALID));
     }
 
     public static void returnBytes(byte[] bytes, HttpServletResponse response) {

@@ -1,19 +1,17 @@
 package com.macaron.corpresent.domain.user.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
+import com.macaron.corpresent.common.base.BaseIncrIDEntity;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @TableName user
  */
 @TableName(value ="user")
 @Data
-public class User implements Serializable {
-    private Long id;
+public class User extends BaseIncrIDEntity implements Serializable {
 
     private String username;
 
@@ -26,18 +24,6 @@ public class User implements Serializable {
     private String phoneNumber;
 
     private String icon;
-
-    private Integer version;
-
-    private Boolean isDeleted;
-
-    private Long createTime;
-
-    private Long updateTime;
-
-    private Boolean isBlocked;
-
-    private Double sort;
 
     private static final long serialVersionUID = 1L;
 }

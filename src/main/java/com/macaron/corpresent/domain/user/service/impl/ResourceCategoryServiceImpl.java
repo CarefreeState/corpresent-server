@@ -1,9 +1,9 @@
 package com.macaron.corpresent.domain.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.macaron.corpresent.domain.user.model.dao.mapper.ResourceCategoryMapper;
 import com.macaron.corpresent.domain.user.model.entity.ResourceCategory;
 import com.macaron.corpresent.domain.user.service.ResourceCategoryService;
-import com.macaron.corpresent.domain.user.model.dao.mapper.ResourceCategoryMapper;
 import org.springframework.stereotype.Service;
 
 /**

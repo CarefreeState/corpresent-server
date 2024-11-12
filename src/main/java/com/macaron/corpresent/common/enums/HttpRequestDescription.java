@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum HttpRequestEnum {
+public enum HttpRequestDescription {
 
     ;
 

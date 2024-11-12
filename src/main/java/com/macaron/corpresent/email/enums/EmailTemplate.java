@@ -9,9 +9,9 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum EmailTemplateEnum {
+public enum EmailTemplate {
 
-    CAPTCHA("Corpresent 邮箱验证：验证用户身份", "identifying-code-model.html"),
+    EMAIL_IDENTIFY("邮箱验证", "identifying-code-model.html"),
 
 
     ;

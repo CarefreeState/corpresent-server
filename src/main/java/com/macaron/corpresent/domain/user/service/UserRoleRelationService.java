@@ -1,7 +1,7 @@
 package com.macaron.corpresent.domain.user.service;
 
-import com.macaron.corpresent.domain.user.model.entity.UserRoleRelation;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.macaron.corpresent.domain.user.model.entity.UserRoleRelation;
 
 /**
 * @author 马拉圈

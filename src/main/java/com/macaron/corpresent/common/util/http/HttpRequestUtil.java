@@ -4,7 +4,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
-import com.macaron.corpresent.common.enums.HttpRequestEnum;
+import com.macaron.corpresent.common.enums.HttpRequestDescription;
 import com.macaron.corpresent.common.util.convert.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -131,20 +131,20 @@ public class HttpRequestUtil {
         return JsonUtil.parse(respJson, responseClazz);
     }
 
-    public static <R, T> R jsonRequest(HttpRequestEnum requestEnum, T requestBody, Class<R> responseClazz, Map<String, String> headers) {
-        return jsonRequest(requestEnum.getUrl(), requestEnum.getMethod(), requestBody, responseClazz, headers);
+    public static <R, T> R jsonRequest(HttpRequestDescription requestDescription, T requestBody, Class<R> responseClazz, Map<String, String> headers) {
+        return jsonRequest(requestDescription.getUrl(), requestDescription.getMethod(), requestBody, responseClazz, headers);
     }
 
-    public static <R, T, P> R jsonRequest(HttpRequestEnum requestEnum, T requestBody, Class<R> responseClazz,
-                                       Map<String, String> headers, Map<String, List<String>> queryParams, Map<String, P> pathParams) {
-        String url = buildUrl(requestEnum.getUrl(), queryParams, pathParams);
-        return jsonRequest(url, requestEnum.getMethod(), requestBody, responseClazz, headers);
+    public static <R, T, P> R jsonRequest(HttpRequestDescription requestDescription, T requestBody, Class<R> responseClazz,
+                                          Map<String, String> headers, Map<String, List<String>> queryParams, Map<String, P> pathParams) {
+        String url = buildUrl(requestDescription.getUrl(), queryParams, pathParams);
+        return jsonRequest(url, requestDescription.getMethod(), requestBody, responseClazz, headers);
     }
 
-    public static <R, T> R jsonRequest(HttpRequestEnum requestEnum, T requestBody, Class<R> responseClazz,
+    public static <R, T> R jsonRequest(HttpRequestDescription requestDescription, T requestBody, Class<R> responseClazz,
                                        Map<String, String> headers, Map<String, List<String>> queryParams, Object... uriVariableValues) {
-        String url = buildUrl(requestEnum.getUrl(), queryParams, uriVariableValues);
-        return jsonRequest(url, requestEnum.getMethod(), requestBody, responseClazz, headers);
+        String url = buildUrl(requestDescription.getUrl(), queryParams, uriVariableValues);
+        return jsonRequest(url, requestDescription.getMethod(), requestBody, responseClazz, headers);
     }
 
 }

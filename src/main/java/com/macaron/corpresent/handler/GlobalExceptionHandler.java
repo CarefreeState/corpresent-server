@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
     private final RequestIdConfig requestIdConfig;
 
     public void logError(HttpServletRequest request, HttpServletResponse response, Exception e) {
-        log.error("请求 {} 访问接口 {}，响应 HTTP 状态码 {}，错误信息 {}",
-                response.getHeader(requestIdConfig.getHeader()), request.getRequestURI(), response.getStatus(),
+        log.error("请求 {} 访问接口 {} {}，响应 HTTP 状态码 {}，错误信息 {}",
+                response.getHeader(requestIdConfig.getHeader()), request.getMethod(), request.getRequestURI(), response.getStatus(),
                 Optional.ofNullable(e).map(Exception::getMessage).orElse(null)
         );
     }

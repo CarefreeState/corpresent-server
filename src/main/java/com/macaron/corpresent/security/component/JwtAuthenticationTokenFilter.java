@@ -11,12 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -41,17 +43,22 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         // 设置请求 id
         long requestId = requestIdGenerator.nextId();
         response.setHeader(requestIdConfig.getHeader(), String.valueOf(requestId));
-        // 解析 token
-        UserHelper userHelper = JwtUtil.parseJwt(request, response, UserHelper.class);
-        String username = userHelper.getUsername();
-        log.info("checking username:{}", username);
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            log.info("authenticated user:{}", username);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            BaseContext.setCurrentUser(userHelper);
+        try {
+            // 解析 token
+            UserHelper userHelper = JwtUtil.parseJwt(request, response, UserHelper.class);
+            String username = userHelper.getUsername();
+            log.info("checking username:{}", username);
+            if (StringUtils.hasText(username)) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                log.info("authenticated user:{}", username);
+                SecurityContextHolder.getContext().setAuthentication(authentication); // 覆盖上下文
+                // 设置本地线程
+                BaseContext.setCurrentUser(userHelper);
+            }
+        } catch (Exception e) {
+            throw new AuthenticationException(e.getMessage()){};
         }
         chain.doFilter(request, response);
     }

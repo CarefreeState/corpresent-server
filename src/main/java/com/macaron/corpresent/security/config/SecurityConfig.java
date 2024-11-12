@@ -2,8 +2,8 @@ package com.macaron.corpresent.security.config;
 
 import com.macaron.corpresent.security.component.DynamicAuthorizationManager;
 import com.macaron.corpresent.security.component.JwtAuthenticationTokenFilter;
-import com.macaron.corpresent.security.component.RestAuthenticationEntryPoint;
-import com.macaron.corpresent.security.component.RestfulAccessDeniedHandler;
+import com.macaron.corpresent.security.handler.RestAuthenticationEntryPoint;
+import com.macaron.corpresent.security.handler.RestfulAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
