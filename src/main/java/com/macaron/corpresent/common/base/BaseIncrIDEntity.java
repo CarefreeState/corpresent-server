@@ -54,10 +54,4 @@ public class BaseIncrIDEntity implements Serializable {
     @TableField(value = "is_blocked", fill = FieldFill.INSERT)
     private Boolean isBlocked;
 
-    /**
-     * 排序字段
-     */
-    @TableField(value = "sort", fill = FieldFill.INSERT)
-    private Double sort;
-
 }

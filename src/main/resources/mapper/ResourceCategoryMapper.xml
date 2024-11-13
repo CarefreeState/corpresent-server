@@ -12,12 +12,11 @@
             <result property="createTime" column="create_time" jdbcType="BIGINT"/>
             <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
             <result property="isBlocked" column="is_blocked" jdbcType="BIT"/>
-            <result property="sort" column="sort" jdbcType="DOUBLE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,name,version,
         is_deleted,create_time,update_time,
-        is_blocked,sort
+        is_blocked
     </sql>
 </mapper>

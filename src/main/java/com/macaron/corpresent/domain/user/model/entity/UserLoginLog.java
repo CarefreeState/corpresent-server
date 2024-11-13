@@ -2,6 +2,7 @@ package com.macaron.corpresent.domain.user.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.macaron.corpresent.common.base.BaseIncrIDEntity;
+import com.macaron.corpresent.common.base.BaseIncrIDSortEntity;
 import lombok.Data;
 
 import java.io.Serializable;
