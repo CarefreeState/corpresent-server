@@ -63,13 +63,14 @@ public class ThreadLocalMapUtil {
         return Objects.isNull(value) ? null : mapper.apply(value);
     }
 
-    public static void append(String key, String str) {
+    public static String append(String key, String str) {
         String newStr = Optional.ofNullable(get(key, String.class))
                 .filter(StringUtils::hasText)
                 .map(s -> s + str)
                 .orElse(str)
         ;
         set(key, newStr);
+        return newStr;
     }
 
 }

@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
+@Getter
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "macaron.request.cors")
@@ -58,16 +60,16 @@ public class CorsFilter implements Filter {
         // 获取请求源
         String origin = httpRequest.getHeader(HttpHeaders.ORIGIN);
         if(allowOriginSet.contains("*")) {
-            httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+            httpResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         }
         if(StringUtils.hasText(origin) && allowOrigin.contains(origin)) {
             // 可以设置允许访问的域，也可以是具体的域名
-            httpResponse.setHeader("Access-Control-Allow-Origin", origin);
+            httpResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
         }
-        httpResponse.setHeader("Access-Control-Allow-Methods", allowMethods);
-        httpResponse.setHeader("Access-Control-Max-Age", maxAge);
-        httpResponse.setHeader("Access-Control-Allow-Headers", allowHeaders);
-        httpResponse.setHeader("Access-Control-Allow-Credentials", allowCredentials);
+        httpResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, allowMethods);
+        httpResponse.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, maxAge);
+        httpResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, allowHeaders);
+        httpResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, allowCredentials);
         chain.doFilter(request, response);
     }
 

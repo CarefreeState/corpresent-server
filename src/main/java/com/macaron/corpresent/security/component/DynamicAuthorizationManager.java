@@ -1,11 +1,12 @@
 package com.macaron.corpresent.security.component;
 
 import cn.hutool.core.collection.CollUtil;
+import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
 import com.macaron.corpresent.security.config.IgnoreUrlsConfig;
+import com.macaron.corpresent.security.handler.RestAuthenticationEntryPoint;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -75,12 +76,11 @@ public class DynamicAuthorizationManager implements AuthorizationManager<Request
                         .filter(item -> needAuthorities.contains(item.getAuthority()))
                         .collect(Collectors.toList());
                 return new AuthorizationDecision(CollUtil.isNotEmpty(hasAuth));
-            }else{
-                return new AuthorizationDecision(false);
             }
         } catch(Exception e) {
-            throw new AccessDeniedException(e.getMessage()) {};
+            ThreadLocalMapUtil.set(RestAuthenticationEntryPoint.AUTHENTICATION_EXCEPTION_MESSAGE, e.getMessage());
         }
+        return new AuthorizationDecision(false);
     }
 
 }

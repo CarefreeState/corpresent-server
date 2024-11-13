@@ -4,6 +4,7 @@ import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.auth.constants.AuthConstants;
 import com.macaron.corpresent.domain.auth.constants.RegisterConstants;
+import com.macaron.corpresent.domain.auth.enums.EmailIdentifyType;
 import com.macaron.corpresent.domain.auth.model.dto.EmailDTO;
 import com.macaron.corpresent.domain.auth.model.dto.PasswordDTO;
 import com.macaron.corpresent.domain.auth.model.dto.RegisterDTO;
@@ -56,7 +57,7 @@ public class PasswordEmailRegisterStrategy implements RegisterStrategy {
         String email = emailParams.getEmail();
         if(Boolean.TRUE.equals(check)) {
             // 验证邮箱
-            emailIdentifyService.validateEmailCode(AuthConstants.EMAIL_REGISTER_IDENTIFY_TYPE, email, emailParams.getCode());
+            emailIdentifyService.validateEmailCode(EmailIdentifyType.REGISTER, email, emailParams.getCode());
         }
         PasswordDTO passwordParams = registerDTO.getPasswordParams();
         return redisLock.tryLockGetSomething(RegisterConstants.REGISTER_EMAIL_LOCK + email, () -> {

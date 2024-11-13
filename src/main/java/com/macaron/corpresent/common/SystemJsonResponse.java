@@ -2,6 +2,7 @@ package com.macaron.corpresent.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,17 +12,21 @@ import java.util.Optional;
 
 @NoArgsConstructor
 @Getter
+// @Schema(description = "统一响应") // 这里影响接口文档支持泛型
 public class SystemJsonResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @JsonInclude
+    @Schema(description = "状态码")
     private int code;
 
     @JsonInclude
+    @Schema(description = "描述")
     private String message;
 
     @JsonInclude
+    @Schema(description = "数据")
     private T data;
 
     private SystemJsonResponse(int code, String msg, T data) {

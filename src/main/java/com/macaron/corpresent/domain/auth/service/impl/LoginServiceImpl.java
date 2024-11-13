@@ -28,7 +28,8 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public LoginVO login(LoginDTO loginDTO) {
         // 获取登录策略
-        LoginStrategy loginStrategy = SpringUtil.getBean(loginDTO.getLoginType() + LoginStrategy.BASE_NAME, LoginStrategy.class);
+        String loginStrategyBeanName = loginDTO.getLoginType().getName() + LoginStrategy.BASE_NAME;
+        LoginStrategy loginStrategy = SpringUtil.getBean(loginStrategyBeanName, LoginStrategy.class);
         User user = loginStrategy.login(loginDTO);
         UserHelper userHelper = UserHelper.builder()
                 .userId(user.getId())

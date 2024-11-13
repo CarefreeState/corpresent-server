@@ -27,7 +27,7 @@ public class DynamicSecurityMetadataSource implements FilterInvocationSecurityMe
 
     @PostConstruct
     public void loadDataSource() {
-        configAttributeMap = dynamicSecurityService.loadDataSource();
+//        configAttributeMap = dynamicSecurityService.loadDataSource();
     }
 
     public void clearDataSource() {

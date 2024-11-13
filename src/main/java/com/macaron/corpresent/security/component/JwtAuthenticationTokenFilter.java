@@ -1,17 +1,18 @@
 package com.macaron.corpresent.security.component;
 
 import com.macaron.corpresent.common.util.http.SnowflakeIdGenerator;
+import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
 import com.macaron.corpresent.config.RequestIdConfig;
 import com.macaron.corpresent.jwt.JwtUtil;
 import com.macaron.corpresent.jwt.UserHelper;
 import com.macaron.corpresent.security.context.BaseContext;
+import com.macaron.corpresent.security.handler.RestfulAccessDeniedHandler;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -58,7 +59,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 BaseContext.setCurrentUser(userHelper);
             }
         } catch (Exception e) {
-            throw new AuthenticationException(e.getMessage()){};
+            ThreadLocalMapUtil.set(RestfulAccessDeniedHandler.ACCESS_DENIED_EXCEPTION_MESSAGE, e.getMessage());
         }
         chain.doFilter(request, response);
     }

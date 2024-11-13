@@ -1,6 +1,7 @@
 package com.macaron.corpresent.config;
 
 import jakarta.servlet.MultipartConfigElement;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -16,8 +17,9 @@ import org.springframework.util.unit.DataUnit;
  * Date: 2024-09-23
  * Time: 15:46
  */
-@Setter
 @Configuration
+@Getter
+@Setter
 @ConfigurationProperties(prefix = "resource.upload")
 public class ResourceUploadConfig {
 

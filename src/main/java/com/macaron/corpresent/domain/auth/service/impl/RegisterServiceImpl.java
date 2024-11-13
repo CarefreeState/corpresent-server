@@ -32,7 +32,7 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public User register(RegisterDTO registerDTO) {
-        String registerStrategyBeanName = registerDTO.getRegisterType() + RegisterStrategy.BASE_NAME;
+        String registerStrategyBeanName = registerDTO.getRegisterType().getName() + RegisterStrategy.BASE_NAME;
         RegisterStrategy registerStrategy = SpringUtil.getBean(registerStrategyBeanName, RegisterStrategy.class);
         String username = registerStrategy.getUsername(registerDTO);
         // 加锁尝试注册

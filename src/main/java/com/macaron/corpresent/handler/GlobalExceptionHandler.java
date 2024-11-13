@@ -47,27 +47,27 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(GlobalServiceException.class)
-    public SystemJsonResponse handleGlobalServiceException(GlobalServiceException e, HttpServletRequest request, HttpServletResponse response) {
+    public SystemJsonResponse<?> handleGlobalServiceException(GlobalServiceException e, HttpServletRequest request, HttpServletResponse response) {
         logError(request, response, e);
         return SystemJsonResponse.CUSTOMIZE_MSG_ERROR(e.getStatusCode(), e.getMessage());
     }
 
     @ExceptionHandler({FileUploadException.class})
-    public SystemJsonResponse handleFileUploadException(FileUploadException e, HttpServletRequest request, HttpServletResponse response) {
+    public SystemJsonResponse<?> handleFileUploadException(FileUploadException e, HttpServletRequest request, HttpServletResponse response) {
         logError(request, response, e);
         String message = "文件上传异常";
         return SystemJsonResponse.CUSTOMIZE_MSG_ERROR(RESOURCE_NOT_VALID, message);
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class})
-    public SystemJsonResponse handleDataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request, HttpServletResponse response) {
+    public SystemJsonResponse<?> handleDataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request, HttpServletResponse response) {
         logError(request, response, e);
         String message = e.getCause() instanceof MysqlDataTruncation ? "数据截断，请检查长度、范围和类型" : "数据非法";
         return SystemJsonResponse.CUSTOMIZE_MSG_ERROR(SYSTEM_SERVICE_ERROR, message);
     }
 
     @ExceptionHandler({SQLException.class})
-    public SystemJsonResponse handleSQLException(SQLException e, HttpServletRequest request, HttpServletResponse response) {
+    public SystemJsonResponse<?> handleSQLException(SQLException e, HttpServletRequest request, HttpServletResponse response) {
         logError(request, response, e);
         String message = "数据访问与交互异常";
         return SystemJsonResponse.CUSTOMIZE_MSG_ERROR(SYSTEM_SERVICE_ERROR, message);
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
      * 自定义验证异常
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public SystemJsonResponse constraintViolationException(ConstraintViolationException e, HttpServletRequest request, HttpServletResponse response) {
+    public SystemJsonResponse<?> constraintViolationException(ConstraintViolationException e, HttpServletRequest request, HttpServletResponse response) {
         logError(request, response, e);
         String message = e.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public SystemJsonResponse ValidationHandler(MethodArgumentNotValidException e, HttpServletRequest request, HttpServletResponse response) {
+    public SystemJsonResponse<?> ValidationHandler(MethodArgumentNotValidException e, HttpServletRequest request, HttpServletResponse response) {
         logError(request, response, e);
         String message = e.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage)

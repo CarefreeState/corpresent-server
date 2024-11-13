@@ -43,7 +43,7 @@ public class SecurityConfig {
             for (String url : ignoreUrlsConfig.getUrls()) {
                 registry.requestMatchers(url).permitAll();
             }
-            //允许跨域请求的OPTIONS请求
+            //允许跨域请求的 OPTIONS 请求
             registry.requestMatchers(HttpMethod.OPTIONS).permitAll();
             //任何请求需要身份认证
         })

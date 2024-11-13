@@ -1,5 +1,7 @@
 package com.macaron.corpresent.domain.auth.service;
 
+import com.macaron.corpresent.domain.auth.enums.EmailIdentifyType;
+
 /**
  * Created With Intellij IDEA
  * Description:
@@ -9,8 +11,8 @@ package com.macaron.corpresent.domain.auth.service;
  */
 public interface EmailIdentifyService {
 
-    String sendIdentifyingCode(String identifyType, String email);
+    String sendIdentifyingCode(EmailIdentifyType emailIdentifyType, String email);
 
-    void validateEmailCode(String identifyType, String email, String code);
+    void validateEmailCode(EmailIdentifyType emailIdentifyType, String email, String code);
 
 }

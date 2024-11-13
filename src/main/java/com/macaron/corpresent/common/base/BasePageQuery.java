@@ -41,12 +41,17 @@ public class BasePageQuery {
         isAsc = Optional.ofNullable(isAsc).orElse(DEFAULT_IS_ASC);
     }
 
+
+    private static OrderItem buildOrderItem(String column, boolean asc) {
+        return (new OrderItem()).setColumn(column).setAsc(asc);
+    }
+
     public <T> IPage<T> toMpPage(OrderItem... orders){
         // 初始化
         init();
         // 1.分页条件
         Page<T> page = Page.of(current, pageSize);
-        page.addOrder(new OrderItem(sortBy, isAsc));
+        page.addOrder(buildOrderItem(sortBy, isAsc));
         // 2.排序条件
         List<OrderItem> orderItemList = Arrays.stream(orders)
                 .filter(Objects::nonNull)
@@ -59,7 +64,7 @@ public class BasePageQuery {
     }
 
     public <T> IPage<T> toMpPage(String sortBy, boolean isAsc){
-        return toMpPage(new OrderItem(sortBy, isAsc));
+        return toMpPage(buildOrderItem(sortBy, isAsc));
     }
 
 }

@@ -28,7 +28,7 @@ mybatis-plus:
   db-type: MYSQL # 分页时指定数据库类型
 
 
-ab:
+macaron:
   request:
     id:
       worker-id: 1
@@ -38,5 +38,17 @@ resource:
   upload:
     max-file-size: 20
     max-request-size: 100
-    data-unit: MEGABYTES
+    data-unit: megabytes
 
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /swagger-ui/**
+      - /swagger-ui.html/**
+      - /swagger-resources/**
+      - /doc.html/**
+      - /v3/api-docs/**
+      - /error/**
+      - /webjars/**
+      - /favicon.ico/**
+      - /api/v1/auth/**

@@ -3,6 +3,7 @@ package com.macaron.corpresent.domain.auth.service.impl;
 import cn.hutool.core.util.RandomUtil;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
+import com.macaron.corpresent.domain.auth.enums.EmailIdentifyType;
 import com.macaron.corpresent.domain.auth.model.vo.IdentifyTemplateVO;
 import com.macaron.corpresent.domain.auth.service.EmailIdentifyService;
 import com.macaron.corpresent.domain.auth.service.ValidateService;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.EMAIL_CAPTCHA_CODE_COUNT_EXHAUST;
+import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.EMAIL_IDENTIFY_CODE_COUNT_EXHAUST;
 import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.EMAIL_SEND_FAIL;
 import static com.macaron.corpresent.domain.auth.constants.AuthConstants.*;
 import static com.macaron.corpresent.email.enums.EmailTemplate.EMAIL_IDENTIFY;
@@ -62,15 +63,16 @@ public class EmailIdentifyServiceImpl implements EmailIdentifyService {
     }
 
     @Override
-    public String sendIdentifyingCode(String identifyType, String email) {
+    public String sendIdentifyingCode(EmailIdentifyType emailIdentifyType, String email) {
         // 检查是否为风控用户, 如果是直接跳过
         if (redisCache.getCacheObject(EMAIL_BLOCKED_USER + email).isPresent()) {
             String message = String.format("邮箱 %s 已被风控，%d 小时后解封", email, EMAIL_BLOCKED_TIMEUNIT.toHours(EMAIL_BLOCKED_TIMEOUT));
             // 申请验证码次数用尽
-            throw new GlobalServiceException(message, EMAIL_CAPTCHA_CODE_COUNT_EXHAUST);
+            throw new GlobalServiceException(message, EMAIL_IDENTIFY_CODE_COUNT_EXHAUST);
         }
 
         // 拼接验证码在 redis 缓存的 map 的 key
+        String identifyType = emailIdentifyType.getName();
         String redisKey = String.format(EMAIL_IDENTIFY_CODE_MAP, identifyType, email);
         // 验证一下一分钟以内发过了没有
         long ttl = redisCache.getKeyTTL(redisKey); // 小于 0 则代表没有到期时间或者不存在，允许发送
@@ -84,10 +86,8 @@ public class EmailIdentifyServiceImpl implements EmailIdentifyService {
         redisCache.getCacheMap(redisKey).ifPresentOrElse(cache -> {
                     long curRetryCount = redisCache.decrementCacheMapNumber(redisKey, EMAIL_IDENTIFY_CODE_CNT_KEY);
                     if (curRetryCount <= 0) {
-                        redisCache.setCacheObject(EMAIL_BLOCKED_USER + email, email, EMAIL_BLOCKED_TIMEOUT, EMAIL_BLOCKED_TIMEUNIT);
-                        String message = String.format("邮箱 %s 已被风控，%d 小时后解封", email, EMAIL_BLOCKED_TIMEUNIT.toHours(EMAIL_BLOCKED_TIMEOUT));
                         // 申请验证码次数用尽
-                        throw new GlobalServiceException(message, EMAIL_CAPTCHA_CODE_COUNT_EXHAUST);
+                        redisCache.setCacheObject(EMAIL_BLOCKED_USER + email, email, EMAIL_BLOCKED_TIMEOUT, EMAIL_BLOCKED_TIMEUNIT);
                     }
                     redisCache.execute(() -> {
                         redisCache.setCacheMapValue(redisKey, EMAIL_IDENTIFY_CODE_KEY, code);
@@ -107,13 +107,14 @@ public class EmailIdentifyServiceImpl implements EmailIdentifyService {
     }
 
     @Override
-    public void validateEmailCode(String identifyType, String email, String code) {
+    public void validateEmailCode(EmailIdentifyType emailIdentifyType, String email, String code) {
+        String identifyType = emailIdentifyType.getName();
         validateService.validate(String.format(VALIDATE_EMAIL_CODE_KEY, identifyType, email), () -> {
             String redisKey = String.format(EMAIL_IDENTIFY_CODE_MAP, identifyType, email);
             return redisCache.getCacheMapValue(redisKey, EMAIL_IDENTIFY_CODE_KEY).orElseThrow(() -> {
-                String message = String.format("不存在邮箱 %s 的相关记录", email);
+                String message = String.format("不存在邮箱 %s 的 %s 相关记录", email, emailIdentifyType.getDescription());
                 return new GlobalServiceException(message, GlobalServiceStatusCode.EMAIL_NOT_EXIST_RECORD);
             }).equals(code);
-        }, GlobalServiceStatusCode.USER_CAPTCHA_CODE_ERROR);
+        }, emailIdentifyType.getErrorCode());
     }
 }

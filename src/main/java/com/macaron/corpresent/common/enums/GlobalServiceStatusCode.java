@@ -49,7 +49,7 @@ public enum GlobalServiceStatusCode {
     USER_NO_PERMISSION(2403, "用户无权限"),
     USER_UN_AUTHORIZED(2404, "暂未登录或 token 无效"),
 
-    USER_CAPTCHA_CODE_ERROR(2500, "验证码错误"),
+    USER_IDENTIFY_CODE_ERROR(2500, "验证码错误"),
     USER_USERNAME_PASSWORD_ERROR(2501, "用户名或密码错误"),
 
     /* 邮箱错误 3001-4000 */
@@ -59,7 +59,15 @@ public enum GlobalServiceStatusCode {
     EMAIL_ATTACH_SEND_FAIL(3004, "邮箱附件发送失败"),
 
     EMAIL_NOT_EXIST_RECORD(3101, "邮箱不存在记录"),
-    EMAIL_CAPTCHA_CODE_COUNT_EXHAUST(3103, "申请次数达到上限"),
+    EMAIL_IDENTIFY_CODE_COUNT_EXHAUST(3103, "申请次数达到上限"),
+
+    EMAIL_LOGIN_IDENTIFY_CODE_ERROR(3201, "邮箱登录验证码错误"),
+    EMAIL_REGISTER_IDENTIFY_CODE_ERROR(3202, "邮箱注册验证码错误"),
+
+    /* 枚举错误 4001-5000 */
+    LOGIN_TYPE_NOT_EXISTS(4001, "登录方式不存在"),
+    REGISTER_TYPE_NOT_EXISTS(4002, "注册方式不存在"),
+    EMAIL_IDENTIFY_TYPE_NOT_EXISTS(4003, "邮箱验证方式不存在"),
 
     /* 资源错误 7001-8000 */
     RESOURCE_LEVEL_NOT_EXISTS(7001, "资源权限不存在"),
@@ -85,18 +93,4 @@ public enum GlobalServiceStatusCode {
     private final Integer code;
     private final String message;
 
-    /**
-     * 根据code获取message
-     *
-     * @param code 状态码的code
-     * @return 状态码的状态信息
-     */
-    public static String getStatusMsgByCode(Integer code) {
-        for (GlobalServiceStatusCode ele : values()) {
-            if (ele.getCode().equals(code)) {
-                return ele.getMessage();
-            }
-        }
-        return null;
-    }
 }

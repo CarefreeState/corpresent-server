@@ -2,7 +2,7 @@ package com.macaron.corpresent.domain.auth.strategy.impl;
 
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
-import com.macaron.corpresent.domain.auth.constants.AuthConstants;
+import com.macaron.corpresent.domain.auth.enums.EmailIdentifyType;
 import com.macaron.corpresent.domain.auth.model.dto.EmailDTO;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.dto.RegisterDTO;
@@ -39,7 +39,7 @@ public class EmailLoginStrategy implements LoginStrategy {
         EmailDTO emailParams = Optional.ofNullable(loginDTO.getEmailParams()).orElseThrow(() ->
                 new GlobalServiceException(GlobalServiceStatusCode.PARAM_IS_BLANK));
         String email = emailParams.getEmail();
-        emailIdentifyService.validateEmailCode(AuthConstants.EMAIL_LOGIN_IDENTIFY_TYPE, email, emailParams.getCode());
+        emailIdentifyService.validateEmailCode(EmailIdentifyType.LOGIN, email, emailParams.getCode());
         return userService.getUserByEmail(email).orElseGet(() -> {
             RegisterDTO registerDTO = RegisterDTO.builder()
                     .emailParams(new EmailDTO() {{
