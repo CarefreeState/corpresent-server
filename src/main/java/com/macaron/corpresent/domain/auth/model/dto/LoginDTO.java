@@ -3,7 +3,7 @@ package com.macaron.corpresent.domain.auth.model.dto;
 import com.macaron.corpresent.domain.auth.enums.LoginType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -17,7 +17,7 @@ import lombok.Data;
 @Schema(description = "登录数据")
 public class LoginDTO {
 
-    @NotBlank(message = "登录方式不能为空")
+    @NotNull(message = "登录方式不能为空")
     @Schema(description = "登录方式") // OpenAPI 搭配 Validation 的注解，区分可选和必须
     private LoginType loginType;
 

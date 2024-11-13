@@ -31,11 +31,7 @@ public class ValidateServiceImpl implements ValidateService {
     public void validate(String key, Supplier<Boolean> isValid, GlobalServiceStatusCode statusCode) {
         String failKey = VALIDATE_KEY + key;
         // 获取失败次数
-        Integer failCount = redisCache.<Integer>getCacheObject(failKey).orElseGet(() -> {
-            Integer count = 0;
-            redisCache.setCacheObject(failKey, count, VALIDATE_BLOCKED_TIMEOUT, VALIDATE_BLOCKED_TIMEUNIT);
-            return count;
-        });
+        Integer failCount = redisCache.getObject(failKey, Integer.class).orElse(0);
         // 锁定时间禁止
         if (failCount.compareTo(AuthConstants.VALIDATE_MAX_RETRY_COUNT) >= 0) {
             String message = String.format("已连续 %d 次%s，请过 %d 分钟后再尝试",
@@ -43,7 +39,8 @@ public class ValidateServiceImpl implements ValidateService {
             throw new GlobalServiceException(message, GlobalServiceStatusCode.PARAM_FAILED_VALIDATE);
         }
         if(Boolean.FALSE.equals(isValid.get())) {
-            long count = redisCache.incrementCacheNumber(failKey);
+            long count = redisCache.increment(failKey); // 默认从创建缓存 0，从 0 自增
+            redisCache.expire(failKey, VALIDATE_BLOCKED_TIMEOUT, VALIDATE_BLOCKED_TIMEUNIT);
             String message = String.format("已连续 %d 次%s，还剩 %d 次机会", count, statusCode.getMessage(), VALIDATE_MAX_RETRY_COUNT - count);
             throw new GlobalServiceException(message, GlobalServiceStatusCode.PARAM_FAILED_VALIDATE);
         }

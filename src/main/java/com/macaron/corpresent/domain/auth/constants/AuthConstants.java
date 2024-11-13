@@ -27,7 +27,7 @@ public interface AuthConstants {
     TimeUnit EMAIL_IDENTIFY_TIMEUNIT = TimeUnit.MINUTES; // 单位
 
     String EMAIL_IDENTIFY_CODE_KEY = "captchaCode"; // map key 验证码
-    String EMAIL_IDENTIFY_CODE_CNT_KEY = "captchaCodeCnt:"; // map key 验证码生成次数
+    String EMAIL_IDENTIFY_CODE_CNT_KEY = "captchaCodeCnt"; // map key 验证码生成次数
     Integer EMAIL_IDENTIFY_CODE_MAX_RETRY_COUNT = 5;
 
     String VALIDATE_KEY = "validateKey:";

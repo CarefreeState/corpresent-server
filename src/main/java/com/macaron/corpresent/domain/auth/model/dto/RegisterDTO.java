@@ -3,7 +3,7 @@ package com.macaron.corpresent.domain.auth.model.dto;
 import com.macaron.corpresent.domain.auth.enums.RegisterType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "注册数据")
 public class RegisterDTO {
 
-    @NotBlank(message = "注册方式不能为空")
+    @NotNull(message = "注册方式不能为空")
     @Schema(description = "注册方式")
     private RegisterType registerType;
 

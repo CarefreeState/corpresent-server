@@ -52,3 +52,4 @@ secure:
       - /webjars/**
       - /favicon.ico/**
       - /api/v1/auth/**
+

@@ -4,6 +4,7 @@ import com.macaron.corpresent.domain.auth.enums.EmailIdentifyType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -17,7 +18,7 @@ import lombok.Data;
 @Schema(description = "邮箱验证数据")
 public class EmailIdentifyDTO {
 
-    @NotBlank(message = "校验类型不能为空")
+    @NotNull(message = "校验类型不能为空")
     @Schema(description = "校验类型")
     private EmailIdentifyType identifyType;
 
