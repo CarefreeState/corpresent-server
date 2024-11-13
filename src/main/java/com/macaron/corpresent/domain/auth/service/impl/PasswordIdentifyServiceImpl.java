@@ -2,9 +2,9 @@ package com.macaron.corpresent.domain.auth.service.impl;
 
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.domain.auth.constants.AuthConstants;
+import com.macaron.corpresent.domain.auth.service.PasswordIdentifyService;
 import com.macaron.corpresent.domain.auth.service.ValidateService;
 import com.macaron.corpresent.domain.auth.util.PasswordMd5WithSaltUtil;
-import com.macaron.corpresent.domain.auth.service.PasswordIdentifyService;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;

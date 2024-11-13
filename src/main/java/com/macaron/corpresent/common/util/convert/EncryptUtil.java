@@ -1,9 +1,6 @@
 package com.macaron.corpresent.common.util.convert;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.UUID;
 
 /**
  * Created With Intellij IDEA

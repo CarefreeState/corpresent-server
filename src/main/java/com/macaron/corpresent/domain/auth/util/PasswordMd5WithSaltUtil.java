@@ -46,6 +46,9 @@ public class PasswordMd5WithSaltUtil {
 
     public static boolean confirm(String inputPassword, String dbPassword) {
         try {
+            if(!StringUtils.hasText(dbPassword)) {
+                return Boolean.FALSE;
+            }
             int separatorIndex = dbPassword.indexOf(PASSWORD_SEPARATOR);
             String salt = dbPassword.substring(0, separatorIndex);
             String encryptPassword = dbPassword.substring(separatorIndex + 1);

@@ -18,7 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.*;
+import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.EMAIL_CAPTCHA_CODE_COUNT_EXHAUST;
+import static com.macaron.corpresent.common.enums.GlobalServiceStatusCode.EMAIL_SEND_FAIL;
 import static com.macaron.corpresent.domain.auth.constants.AuthConstants.*;
 import static com.macaron.corpresent.email.enums.EmailTemplate.EMAIL_IDENTIFY;
 

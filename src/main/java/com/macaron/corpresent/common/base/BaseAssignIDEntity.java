@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class BaseAssignIDEntity implements Serializable {
 
     /**
-     * id, incr
+     * id, assign
      */
     @TableId(type = IdType.ASSIGN_ID, value = "id")
     private Long id;
@@ -32,7 +32,7 @@ public class BaseAssignIDEntity implements Serializable {
     /**
      * 更新时间
      */
-    @TableField(value = "update_time", fill = FieldFill.UPDATE)
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Long updateTime;
 
     /**

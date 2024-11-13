@@ -3,23 +3,18 @@ package com.macaron.corpresent.domain.auth.strategy.impl;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.auth.constants.AuthConstants;
-import com.macaron.corpresent.domain.auth.constants.RegisterConstants;
 import com.macaron.corpresent.domain.auth.model.dto.EmailDTO;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.dto.RegisterDTO;
 import com.macaron.corpresent.domain.auth.service.EmailIdentifyService;
-import com.macaron.corpresent.domain.auth.service.RegisterService;
 import com.macaron.corpresent.domain.auth.strategy.LoginStrategy;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.service.UserService;
-import com.macaron.corpresent.redis.lock.RedisLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
-import static com.macaron.corpresent.domain.auth.constants.RegisterConstants.*;
 
 /**
  * Created With Intellij IDEA

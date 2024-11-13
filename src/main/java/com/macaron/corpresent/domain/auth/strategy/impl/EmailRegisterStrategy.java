@@ -8,7 +8,6 @@ import com.macaron.corpresent.domain.auth.model.dto.EmailDTO;
 import com.macaron.corpresent.domain.auth.model.dto.RegisterDTO;
 import com.macaron.corpresent.domain.auth.service.EmailIdentifyService;
 import com.macaron.corpresent.domain.auth.strategy.RegisterStrategy;
-import com.macaron.corpresent.domain.auth.util.PasswordMd5WithSaltUtil;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.service.UserService;

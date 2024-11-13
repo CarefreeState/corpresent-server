@@ -2,7 +2,10 @@ package com.macaron.corpresent.domain.auth.model.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 密码登录才会用到这个 DTO 注册，其余都是直接新建

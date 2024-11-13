@@ -1,7 +1,6 @@
 package com.macaron.corpresent.domain.auth.service.impl;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.convert.JsonUtil;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.vo.LoginVO;
@@ -13,9 +12,6 @@ import com.macaron.corpresent.jwt.UserHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 /**
  * Created With Intellij IDEA

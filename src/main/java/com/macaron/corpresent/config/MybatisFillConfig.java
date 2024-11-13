@@ -27,10 +27,10 @@ public class MybatisFillConfig implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         long currentTimeMillis = System.currentTimeMillis();
-        this.strictInsertFill(metaObject, "createTime", Long.class, currentTimeMillis);
-        this.strictUpdateFill(metaObject, "updateTime", Long.class, currentTimeMillis);
         this.strictInsertFill(metaObject, "version", Integer.class, 1);
         this.strictInsertFill(metaObject, "isDeleted", Boolean.class, Boolean.FALSE);
+        this.strictInsertFill(metaObject, "createTime", Long.class, currentTimeMillis);
+        this.strictUpdateFill(metaObject, "updateTime", Long.class, currentTimeMillis);
         this.strictInsertFill(metaObject, "isBlocked", Boolean.class, Boolean.FALSE);
         this.strictInsertFill(metaObject, "sort", Double.class, 0.0);
     }

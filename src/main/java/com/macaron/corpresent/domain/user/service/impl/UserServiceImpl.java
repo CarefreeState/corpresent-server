@@ -4,21 +4,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.macaron.corpresent.common.constants.EntitySortConstants;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
-import com.macaron.corpresent.domain.user.constants.UserConstants;
 import com.macaron.corpresent.domain.user.model.converter.UserConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.UserMapper;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.service.UserService;
-import com.macaron.corpresent.redis.lock.RedisLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Optional;
-
-import static com.macaron.corpresent.domain.user.constants.UserConstants.*;
 
 /**
 * @author 马拉圈

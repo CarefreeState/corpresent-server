@@ -3,8 +3,6 @@ package com.macaron.corpresent.domain.auth.service;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.vo.LoginVO;
 
-import java.util.function.Supplier;
-
 /**
  * Created With Intellij IDEA
  * Description:
