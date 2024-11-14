@@ -29,8 +29,9 @@ public interface ResourceConverter {
 
     ResourceQueryVO resourceBasePageResultToResourceQueryVO(BasePageResult<Resource> resourceBasePageResult);
 
-    @Mapping(target = "resourceCategoryVO", source = "resourceCategory")
-//    @Mapping(target = "resourceCategoryVO", expression = "java(ResourceCategoryConverter.INSTANCE.resourceCategoryToResourceCategoryVO(resourceCategory))")
+    @Mapping(target = "id", source = "resource.id")
+    @Mapping(target = "name", source = "resource.name")
+    @Mapping(target = "resourceCategoryVO", expression = "java(ResourceCategoryConverter.INSTANCE.resourceCategoryToResourceCategoryVO(resourceCategory))")
     ResourceDetailVO resourceCategoryToResourceDetailVO(Resource resource, ResourceCategory resourceCategory);
 
     List<ResourceVO> resourceListToResourceVOList(List<Resource> resourceList);

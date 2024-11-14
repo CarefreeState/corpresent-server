@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
-@Tag(name = "资源")
+@Tag(name = "资源分类")
 @RequestMapping("/api/v1/category/resource")
 public class ResourceCategoryController {
 

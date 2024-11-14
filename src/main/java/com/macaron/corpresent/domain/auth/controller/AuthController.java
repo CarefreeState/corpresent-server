@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @Validated
-@Tag(name = "认证校验")
+@Tag(name = "认证校验（无需登录/无需权限）")
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
