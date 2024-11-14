@@ -1,13 +1,18 @@
 package com.macaron.corpresent.domain.auth.controller;
 
 import com.macaron.corpresent.common.SystemJsonResponse;
+import com.macaron.corpresent.domain.auth.enums.EmailIdentifyType;
 import com.macaron.corpresent.domain.auth.model.dto.EmailIdentifyDTO;
+import com.macaron.corpresent.domain.auth.model.dto.FindPasswordDTO;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.dto.RegisterDTO;
 import com.macaron.corpresent.domain.auth.model.vo.LoginVO;
 import com.macaron.corpresent.domain.auth.service.EmailIdentifyService;
 import com.macaron.corpresent.domain.auth.service.LoginService;
+import com.macaron.corpresent.domain.auth.service.PasswordIdentifyService;
 import com.macaron.corpresent.domain.auth.service.RegisterService;
+import com.macaron.corpresent.domain.user.model.entity.User;
+import com.macaron.corpresent.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,9 +41,13 @@ public class AuthController {
 
     private final EmailIdentifyService emailIdentifyService;
 
+    private final PasswordIdentifyService passwordIdentifyService;
+
     private final LoginService loginService;
 
     private final RegisterService registerService;
+
+    private final UserService userService;
 
     @Operation(summary = "获取邮箱验证码")
     @PostMapping("/email/identify")
@@ -58,6 +67,20 @@ public class AuthController {
     @PostMapping("/register")
     public SystemJsonResponse<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
         registerService.register(registerDTO);
+        return SystemJsonResponse.SYSTEM_SUCCESS();
+    }
+
+    @Operation(summary = "用户找回密码")
+    @PostMapping("/find/password")
+    public SystemJsonResponse<?> findPassword(@Valid @RequestBody FindPasswordDTO findPasswordDTO) {
+        String email = findPasswordDTO.getEmail();
+        // 判断邮箱是否存在
+        User user = userService.checkAndGetUserByEmail(email);
+        // 验证邮箱验证码
+        emailIdentifyService.validateEmailCode(EmailIdentifyType.FIND_PASSWORD, email, findPasswordDTO.getCode());
+        // 更新密码
+        String dbPassword = passwordIdentifyService.passwordEncrypt(findPasswordDTO.getPassword());
+        userService.updatePasswordUser(user.getId(), dbPassword);
         return SystemJsonResponse.SYSTEM_SUCCESS();
     }
 

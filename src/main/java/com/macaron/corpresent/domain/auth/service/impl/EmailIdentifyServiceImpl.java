@@ -113,7 +113,7 @@ public class EmailIdentifyServiceImpl implements EmailIdentifyService {
         validateService.validate(String.format(VALIDATE_EMAIL_CODE_KEY, identifyType, email), () -> {
             String redisKey = String.format(EMAIL_IDENTIFY_CODE_MAP, identifyType, email);
             return redisMapCache.get(redisKey, EMAIL_IDENTIFY_CODE_KEY, String.class).orElseThrow(() -> {
-                String message = String.format("不存在邮箱 %s 的 %s 相关记录", email, emailIdentifyType.getDescription());
+                String message = String.format("不存在邮箱 %s 的 %s 的相关记录", email, emailIdentifyType.getDescription());
                 return new GlobalServiceException(message, GlobalServiceStatusCode.EMAIL_NOT_EXIST_RECORD);
             }).equals(code);
         }, emailIdentifyType.getErrorCode());

@@ -12,12 +12,11 @@
             <result property="isDeleted" column="is_deleted" jdbcType="BIT"/>
             <result property="createTime" column="create_time" jdbcType="BIGINT"/>
             <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
-            <result property="isBlocked" column="is_blocked" jdbcType="BIT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,user_id,role_id,
         version,is_deleted,create_time,
-        update_time,is_blocked
+        update_time
     </sql>
 </mapper>

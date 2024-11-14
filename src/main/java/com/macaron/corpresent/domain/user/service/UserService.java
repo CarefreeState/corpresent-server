@@ -2,8 +2,10 @@ package com.macaron.corpresent.domain.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
+import com.macaron.corpresent.domain.user.model.dto.UserQueryDTO;
 import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
+import com.macaron.corpresent.domain.user.model.vo.UserQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.UserVO;
 
 import java.util.List;
@@ -23,9 +25,14 @@ public interface UserService extends IService<User> {
 
     User checkAndGetUserById(Long userId);
     User checkAndGetUserByUsername(String username);
+    User checkAndGetUserByEmail(String email);
 
     User createUser(UserDTO userDTO);
+    void blockUser(Long userId, Boolean isBlocked);
+    void renameUser(Long userId, String nickname);
+    void updatePasswordUser(Long userId, String password);
 
-    UserVO getUserVOById(Long userId);
+    UserVO queryUser(Long userId);
+    UserQueryVO queryUser(UserQueryDTO userQueryDTO);
 
 }

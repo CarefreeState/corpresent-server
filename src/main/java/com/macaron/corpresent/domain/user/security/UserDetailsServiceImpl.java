@@ -1,5 +1,7 @@
 package com.macaron.corpresent.domain.user.security;
 
+import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
+import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.service.UserService;
@@ -27,6 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.checkAndGetUserByUsername(username);
+        if(Boolean.TRUE.equals(user.getIsBlocked())) {
+            throw new GlobalServiceException(GlobalServiceStatusCode.USER_ACCOUNT_BLOCKED);
+        }
         Long userId = user.getId();
         List<Resource> resourceList = userService.getResourceListByUserId(userId);
         return new UserResourceDetails(user, resourceList);

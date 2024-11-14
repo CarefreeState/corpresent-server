@@ -30,4 +30,6 @@ public class UserDTO {
 
     private String icon;
 
+    private Boolean isBlocked;
+
 }

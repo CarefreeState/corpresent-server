@@ -1,6 +1,9 @@
 package com.macaron.corpresent.domain.user.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.macaron.corpresent.common.base.BasePageQuery;
+import com.macaron.corpresent.common.base.BasePageResult;
 import com.macaron.corpresent.common.constants.EntitySortConstants;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
@@ -9,16 +12,20 @@ import com.macaron.corpresent.domain.user.model.converter.UserConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.UserMapper;
 import com.macaron.corpresent.domain.user.model.dto.AssignRoleDTO;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
+import com.macaron.corpresent.domain.user.model.dto.UserQueryDTO;
 import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
+import com.macaron.corpresent.domain.user.model.vo.UserQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.UserVO;
 import com.macaron.corpresent.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -75,6 +82,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    public User checkAndGetUserByEmail(String email) {
+        return getUserByEmail(email).orElseThrow(() ->
+                new GlobalServiceException(GlobalServiceStatusCode.EMAIL_USER_ACCOUNT_NOT_EXIST));
+    }
+
+    @Override
     @Transactional
     public User createUser(UserDTO userDTO) {
         User user = UserConverter.INSTANCE.userDTOToUser(userDTO);
@@ -89,8 +102,55 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public UserVO getUserVOById(Long userId) {
+    public void blockUser(Long userId, Boolean isBlocked) {
+        this.lambdaUpdate()
+                .eq(User::getId, userId)
+                .set(User::getIsBlocked, isBlocked)
+                .update();
+    }
+
+    @Override
+    public void renameUser(Long userId, String nickname) {
+        this.lambdaUpdate()
+                .eq(User::getId, userId)
+                .set(User::getNickname, nickname)
+                .update();
+    }
+
+    @Override
+    public void updatePasswordUser(Long userId, String password) {
+        this.lambdaUpdate()
+                .eq(User::getId, userId)
+                .set(User::getPassword, password)
+                .update();
+    }
+
+    @Override
+    public UserVO queryUser(Long userId) {
         return UserConverter.INSTANCE.userToUserVO(checkAndGetUserById(userId));
+    }
+
+    @Override
+    public UserQueryVO queryUser(UserQueryDTO userQueryDTO) {
+        // 解析分页参数获取 page
+        IPage<User> page = null;
+        String name = null;
+        // 获取条件分页查询参数
+        if(Objects.nonNull(userQueryDTO)) {
+            page = userQueryDTO.toMpPage();
+            name = userQueryDTO.getName();
+        } else {
+            page = new BasePageQuery().toMpPage();
+        }
+        // 分页
+        IPage<User> userIPage = this.lambdaQuery()
+                .like(StringUtils.hasText(name), User::getUsername, name)
+                .like(StringUtils.hasText(name), User::getNickname, name)
+                .page(page);
+        // 封装
+        BasePageResult<User> userBasePageResult = BasePageResult.of(userIPage);
+        // 转化并返回
+        return UserConverter.INSTANCE.userBasePageResultToUserQueryVO(userBasePageResult);
     }
 
 }

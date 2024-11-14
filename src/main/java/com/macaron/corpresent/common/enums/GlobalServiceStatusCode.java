@@ -38,7 +38,7 @@ public enum GlobalServiceStatusCode {
     USER_CREDENTIALS_ERROR(2003, "密码错误"),
     USER_CREDENTIALS_EXPIRED(2004, "密码过期"),
     USER_ACCOUNT_DISABLE(2005, "账号不可用"),
-    USER_ACCOUNT_LOCKED(2006, "账号被锁定"),
+    USER_ACCOUNT_BLOCKED(2006, "账号已禁用"),
     USER_ACCOUNT_NOT_EXIST(2007, "账号不存在"),
     USER_ACCOUNT_ALREADY_EXIST(2008, "账号已存在"),
     USER_ACCOUNT_USE_BY_OTHERS(2009, "账号下线"),
@@ -63,6 +63,9 @@ public enum GlobalServiceStatusCode {
 
     EMAIL_LOGIN_IDENTIFY_CODE_ERROR(3201, "邮箱登录验证码错误"),
     EMAIL_REGISTER_IDENTIFY_CODE_ERROR(3202, "邮箱注册验证码错误"),
+    EMAIL_FIND_PASSWORD_IDENTIFY_CODE_ERROR(3202, "邮箱找回密码验证码错误"),
+
+    EMAIL_USER_ACCOUNT_NOT_EXIST(3301, "邮箱账号不存在"),
 
     /* 用户权限体系错误 4001-5000 */
     RESOURCE_NOT_EXISTS(4001, "资源不存在"),

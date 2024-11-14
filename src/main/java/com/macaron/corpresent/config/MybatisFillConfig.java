@@ -31,7 +31,6 @@ public class MybatisFillConfig implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "isDeleted", Boolean.class, Boolean.FALSE);
         this.strictInsertFill(metaObject, "createTime", Long.class, currentTimeMillis);
         this.strictUpdateFill(metaObject, "updateTime", Long.class, currentTimeMillis);
-        this.strictInsertFill(metaObject, "isBlocked", Boolean.class, Boolean.FALSE);
         this.strictInsertFill(metaObject, "sort", Double.class, 0.0);
     }
 

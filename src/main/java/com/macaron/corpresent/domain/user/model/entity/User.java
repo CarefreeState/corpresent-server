@@ -25,5 +25,7 @@ public class User extends BaseIncrIDSortEntity implements Serializable {
 
     private String icon;
 
+    private Boolean isBlocked;
+
     private static final long serialVersionUID = 1L;
 }

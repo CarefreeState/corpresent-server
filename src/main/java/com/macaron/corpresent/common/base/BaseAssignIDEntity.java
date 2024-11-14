@@ -49,10 +49,4 @@ public class BaseAssignIDEntity implements Serializable {
     @TableLogic
     private Boolean isDeleted;
 
-    /**
-     * 是否禁用
-     */
-    @TableField(value = "is_blocked", fill = FieldFill.INSERT)
-    private Boolean isBlocked;
-
 }

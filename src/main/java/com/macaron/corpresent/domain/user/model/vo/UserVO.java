@@ -32,4 +32,11 @@ public class UserVO {
     @Schema(description = "头像")
     private String icon;
 
+    @Schema(description = "创建时间")
+    protected Long createTime;
+
+    @Schema(description = "是否禁用")
+    private Boolean isBlocked;
+
+
 }

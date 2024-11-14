@@ -1,6 +1,8 @@
 package com.macaron.corpresent.domain.auth.service.impl;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
+import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.vo.LoginVO;
 import com.macaron.corpresent.domain.auth.service.LoginService;
@@ -30,6 +32,9 @@ public class LoginServiceImpl implements LoginService {
         String loginStrategyBeanName = loginDTO.getLoginType().getName() + LoginStrategy.BASE_NAME;
         LoginStrategy loginStrategy = SpringUtil.getBean(loginStrategyBeanName, LoginStrategy.class);
         User user = loginStrategy.login(loginDTO);
+        if(Boolean.TRUE.equals(user.getIsBlocked())) {
+            throw new GlobalServiceException(GlobalServiceStatusCode.USER_ACCOUNT_BLOCKED);
+        }
         UserHelper userHelper = UserHelper.builder()
                 .userId(user.getId())
                 .username(user.getUsername())

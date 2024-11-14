@@ -18,6 +18,7 @@ public enum EmailIdentifyType {
 
     LOGIN("login", "登录验证", GlobalServiceStatusCode.EMAIL_LOGIN_IDENTIFY_CODE_ERROR),
     REGISTER("register", "注册验证", GlobalServiceStatusCode.EMAIL_REGISTER_IDENTIFY_CODE_ERROR),
+    FIND_PASSWORD("findPassword", "找回密码", GlobalServiceStatusCode.EMAIL_REGISTER_IDENTIFY_CODE_ERROR),
 
     ;
 
