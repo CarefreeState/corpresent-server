@@ -17,7 +17,5 @@ public class Role extends BaseIncrIDEntity implements Serializable {
 
     private String description;
 
-    private Integer userCount;
-
     private static final long serialVersionUID = 1L;
 }

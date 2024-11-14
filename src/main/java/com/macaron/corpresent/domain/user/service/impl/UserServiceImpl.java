@@ -7,12 +7,14 @@ import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.user.model.converter.UserConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.UserMapper;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
+import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,6 +27,8 @@ import java.util.Optional;
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
+
+    private final UserMapper userMapper;
 
     @Override
     public Optional<User> getUserById(Long userId) {
@@ -65,6 +69,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public User checkAndGetUserByEmail(String email) {
         return getUserByEmail(email).orElseThrow(() ->
                 new GlobalServiceException(GlobalServiceStatusCode.USER_ACCOUNT_NOT_EXIST));
+    }
+
+    @Override
+    public List<Resource> getResourceListByUserId(Long userId) {
+        return userMapper.getResourceList(userId);
     }
 
 }

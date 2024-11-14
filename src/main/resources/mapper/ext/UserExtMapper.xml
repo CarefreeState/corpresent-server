@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macaron.corpresent.domain.user.model.dao.mapper.UserMapper">
+
+
+    <select id="getResourceList" parameterType="java.lang.Long" resultType="com.macaron.corpresent.domain.user.model.entity.Resource">
+        select
+            r2.*
+        from user u
+             left join user_role_relation urr on u.id = urr.user_id and u.is_deleted = 0 and urr.is_deleted = 0
+             left join role r on urr.role_id = r.id and urr.is_deleted = 0 and r.is_deleted = 0
+             left join role_resource_relation rrr on r.id = rrr.role_id and r.is_deleted = 0 and rrr.is_deleted = 0
+             left join resource r2 on rrr.resource_id = r2.id and rrr.is_deleted = 0 and r2.is_deleted = 0
+        where
+            u.id = #{userId,jdbcType=BIGINT} and u.is_deleted = 0 and r2.id is not null
+    </select>
+
+</mapper>

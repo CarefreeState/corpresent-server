@@ -50,6 +50,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String username = userHelper.getUsername();
             log.info("checking username:{}", username);
             if (StringUtils.hasText(username)) {
+                // 加载用户详情
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                 PreAuthenticatedAuthenticationToken authentication = new PreAuthenticatedAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

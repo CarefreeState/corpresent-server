@@ -44,14 +44,14 @@ public class DynamicAuthorizationManager implements AuthorizationManager<Request
         HttpServletRequest request = requestAuthorizationContext.getRequest();
         String path = request.getRequestURI();
         PathMatcher pathMatcher = new AntPathMatcher();
-        //白名单路径直接放行
+        // 白名单路径直接放行
         List<String> ignoreUrls = ignoreUrlsConfig.getUrls();
         for (String ignoreUrl : ignoreUrls) {
             if (pathMatcher.match(ignoreUrl, path)) {
                 return new AuthorizationDecision(true);
             }
         }
-        //对应跨域的预检请求直接放行
+        // 对应跨域的预检请求直接放行
         if(request.getMethod().equals(HttpMethod.OPTIONS.name())){
             return new AuthorizationDecision(true);
         }
@@ -67,7 +67,7 @@ public class DynamicAuthorizationManager implements AuthorizationManager<Request
             // 若此集合为空集合，则代表本次请求的资源不存在（哪怕存在这个接口，到这一步也无法判断出来，所以每个接口都应该在数据库里有记录）
             List<String> needAuthorities = configAttributeList.stream()
                     .map(ConfigAttribute::getAttribute)
-                    .collect(Collectors.toList());
+                    .toList();
             Authentication currentAuth = authentication.get();
             //判定是否已经实现登录认证
             if(currentAuth.isAuthenticated()){

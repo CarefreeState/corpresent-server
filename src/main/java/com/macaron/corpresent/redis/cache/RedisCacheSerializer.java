@@ -14,9 +14,12 @@ import java.util.stream.Collectors;
  * Time: 19:49
  */
 @Component
-public class RedisCacheJsonSerializer {
+public class RedisCacheSerializer {
 
     public <T> T parse(String json, Class<T> clazz) {
+        // json == null -> null
+        // json == "null" -> null
+        // json == "\"null\"" -> "null"(String)
         return Optional.ofNullable(json).map(j -> JsonUtil.parse(j, clazz)).orElse(null);
     }
 

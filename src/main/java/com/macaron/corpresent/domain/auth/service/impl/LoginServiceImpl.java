@@ -36,7 +36,7 @@ public class LoginServiceImpl implements LoginService {
                 .username(user.getUsername())
                 .build();
         return LoginVO.builder()
-                .token(JwtUtil.createJwt(JsonUtil.toJson(userHelper)))
+                .token(JwtUtil.createJwt(userHelper))
                 .build();
     }
 }

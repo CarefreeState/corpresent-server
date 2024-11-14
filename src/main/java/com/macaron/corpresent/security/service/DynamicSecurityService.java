@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface DynamicSecurityService {
     /**
-     * 加载资源ANT通配符和资源对应MAP
+     * 加载资源 ANT 通配符和资源对应 MAP
      */
     Map<String, ConfigAttribute> loadDataSource();
 }

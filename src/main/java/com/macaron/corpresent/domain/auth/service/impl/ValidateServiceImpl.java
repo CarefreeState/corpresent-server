@@ -29,7 +29,7 @@ public class ValidateServiceImpl implements ValidateService {
 
     @Override
     public void validate(String key, Supplier<Boolean> isValid, GlobalServiceStatusCode statusCode) {
-        String failKey = VALIDATE_KEY + key;
+        String failKey = VALIDATE_FAIL_COUNT + key;
         // 获取失败次数
         Integer failCount = redisCache.getObject(failKey, Integer.class).orElse(0);
         // 锁定时间禁止

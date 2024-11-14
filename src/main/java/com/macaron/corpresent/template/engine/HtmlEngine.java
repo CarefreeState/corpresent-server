@@ -1,7 +1,7 @@
 package com.macaron.corpresent.template.engine;
 
 import com.macaron.corpresent.template.model.po.ReplaceResource;
-import com.macaron.corpresent.template.model.po.Resource;
+import com.macaron.corpresent.template.model.po.TemplateResource;
 import com.macaron.corpresent.template.util.MarkdownUtil;
 import com.macaron.corpresent.template.util.TemplateUtil;
 import lombok.RequiredArgsConstructor;
@@ -63,13 +63,13 @@ public class HtmlEngine {
         }
 
         // 合并 html 并追加
-        public HtmlBuilder append(Resource resource) {
-            return append(resource.getTemplate(), resource.getContext());
+        public HtmlBuilder append(TemplateResource templateResource) {
+            return append(templateResource.getTemplate(), templateResource.getContext());
         }
 
         // 合并 html 并依次追加
-        public HtmlBuilder append(List<Resource> resourceList) {
-            resourceList.forEach(this::append);
+        public HtmlBuilder append(List<TemplateResource> templateResourceList) {
+            templateResourceList.forEach(this::append);
             return this;
         }
 
@@ -86,14 +86,14 @@ public class HtmlEngine {
         }
 
         // 合并 md 后转化为 html 追加
-        public HtmlBuilder appendMarkdown(Resource resource) {
-            String markdown = textEngine.builder().append(resource).build();
+        public HtmlBuilder appendMarkdown(TemplateResource templateResource) {
+            String markdown = textEngine.builder().append(templateResource).build();
             return appendMarkdown(markdown);
         }
 
         // 合并 html 并依次追加
-        public HtmlBuilder appendMarkdown(List<Resource> resourceList) {
-            String markdown = textEngine.builder().append(resourceList).build();
+        public HtmlBuilder appendMarkdown(List<TemplateResource> templateResourceList) {
+            String markdown = textEngine.builder().append(templateResourceList).build();
             return appendMarkdown(markdown);
         }
 

@@ -8,7 +8,6 @@
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="userCount" column="user_count" jdbcType="INTEGER"/>
             <result property="version" column="version" jdbcType="INTEGER"/>
             <result property="isDeleted" column="is_deleted" jdbcType="BIT"/>
             <result property="createTime" column="create_time" jdbcType="BIGINT"/>
@@ -18,7 +17,7 @@
 
     <sql id="Base_Column_List">
         id,name,description,
-        user_count,version,is_deleted,
+        version,is_deleted,
         create_time,update_time,is_blocked
     </sql>
 </mapper>

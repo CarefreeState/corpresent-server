@@ -25,11 +25,11 @@ public class RedisListCache {
 
     private final RedisCache redisCache;
 
-    private final RedisCacheJsonSerializer redisCacheJsonSerializer;
+    private final RedisCacheSerializer redisCacheSerializer;
 
     public <K, E> void addAll(final K key, final List<E> list) {
-        String jsonKey = redisCacheJsonSerializer.toJson(key);
-        List<String> jsonList = redisCacheJsonSerializer.toJson(list);
+        String jsonKey = redisCacheSerializer.toJson(key);
+        List<String> jsonList = redisCacheSerializer.toJson(list);
         log.info("存入 Redis 中的 List 缓存\t[{}]-[{}]", jsonKey, jsonList);
         redisTemplate.opsForList().rightPushAll(jsonKey, jsonList);
     }
@@ -51,10 +51,10 @@ public class RedisListCache {
      * @return 缓存键值对应的数据
      */
     public <K, E> Optional<List<E>> getList(final K key, final Class<E> eClazz) {
-        String jsonKey = redisCacheJsonSerializer.toJson(key);
+        String jsonKey = redisCacheSerializer.toJson(key);
         List<String> jsonList = redisTemplate.opsForList().range(jsonKey, 0, -1);
         log.info("获取 Redis 中的 List 缓存\t[{}]-[{}]", jsonKey, jsonList);
-        List<E> list = redisCacheJsonSerializer.parse(jsonList, eClazz);
+        List<E> list = redisCacheSerializer.parse(jsonList, eClazz);
         return Optional.ofNullable(list).filter(l -> !l.isEmpty());
     }
 

@@ -3,6 +3,7 @@ package com.macaron.corpresent.security.component;
 import cn.hutool.core.util.URLUtil;
 import com.macaron.corpresent.security.service.DynamicSecurityService;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
@@ -18,21 +19,16 @@ import java.util.*;
  * Created by macro on 2020/2/7.
  */
 @Component
+@RequiredArgsConstructor
 public class DynamicSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    private static Map<String, ConfigAttribute> configAttributeMap = null;
+    private Map<String, ConfigAttribute> configAttributeMap;
 
-    @Autowired(required = false)
-    private DynamicSecurityService dynamicSecurityService;
+    private final DynamicSecurityService dynamicSecurityService;
 
     @PostConstruct
     public void loadDataSource() {
-//        configAttributeMap = dynamicSecurityService.loadDataSource();
-    }
-
-    public void clearDataSource() {
-        configAttributeMap.clear();
-        configAttributeMap = null;
+        configAttributeMap = dynamicSecurityService.loadDataSource();
     }
 
     @Override
@@ -45,7 +41,6 @@ public class DynamicSecurityMetadataSource implements FilterInvocationSecurityMe
 
     //根据当前访问的路径获取对应权限
     public List<ConfigAttribute> getConfigAttributesWithPath(String path) {
-        if (configAttributeMap == null) this.loadDataSource();
         List<ConfigAttribute>  configAttributes = new ArrayList<>();
         PathMatcher pathMatcher = new AntPathMatcher();
         Iterator<String> iterator = configAttributeMap.keySet().iterator();

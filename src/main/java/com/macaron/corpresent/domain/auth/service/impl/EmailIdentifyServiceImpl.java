@@ -87,7 +87,7 @@ public class EmailIdentifyServiceImpl implements EmailIdentifyService {
         // 获取缓存
         String code = RandomUtil.randomNumbers(EMAIL_IDENTIFY_CODE_LENGTH);
         redisMapCache.getMap(redisKey, String.class, Object.class).ifPresentOrElse(cache -> {
-                    long curRetryCount = redisMapCache.increment(redisKey, EMAIL_IDENTIFY_CODE_CNT_KEY, -1);
+                    long curRetryCount = redisMapCache.increment(redisKey, EMAIL_IDENTIFY_CODE_COUNT_KEY, -1);
                     if (curRetryCount < 0) {
                         // 申请验证码次数用尽
                         redisCache.setObject(EMAIL_BLOCKED_USER + email, 0, EMAIL_BLOCKED_TIMEOUT, EMAIL_BLOCKED_TIMEUNIT);
@@ -97,7 +97,7 @@ public class EmailIdentifyServiceImpl implements EmailIdentifyService {
                 }, () -> {
                     // 如果 redis 没有对应 key 值，初始化
                     Map<String, Object> captchaCodeMap = new HashMap<>();
-                    captchaCodeMap.put(EMAIL_IDENTIFY_CODE_CNT_KEY, EMAIL_IDENTIFY_CODE_MAX_RETRY_COUNT - 1);
+                    captchaCodeMap.put(EMAIL_IDENTIFY_CODE_COUNT_KEY, EMAIL_IDENTIFY_CODE_MAX_RETRY_COUNT - 1);
                     captchaCodeMap.put(EMAIL_IDENTIFY_CODE_KEY, code);
                     redisMapCache.init(redisKey, captchaCodeMap, EMAIL_IDENTIFY_TIMEOUT, EMAIL_IDENTIFY_TIMEUNIT);
                 }

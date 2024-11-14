@@ -9,8 +9,8 @@ package com.macaron.corpresent.common.constants;
  */
 public interface EntitySortConstants {
 
-    Double MIN_SORT_PRECISION = 2e0;
+    Double MIN_SORT_PRECISION = Math.pow(2, 0);
 
-    Double BASE_SORT_NUMBER = 2e16;
+    Double BASE_SORT_NUMBER = Math.pow(2, 16);
 
 }

@@ -1,7 +1,7 @@
 package com.macaron.corpresent.template.engine;
 
 import com.macaron.corpresent.template.model.po.ReplaceResource;
-import com.macaron.corpresent.template.model.po.Resource;
+import com.macaron.corpresent.template.model.po.TemplateResource;
 import com.macaron.corpresent.template.util.TemplateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -55,12 +55,12 @@ public class TextEngine {
             return append(text);
         }
 
-        public TextBuilder append(Resource resource) {
-            return append(resource.getTemplate(), resource.getContext());
+        public TextBuilder append(TemplateResource templateResource) {
+            return append(templateResource.getTemplate(), templateResource.getContext());
         }
 
-        public TextBuilder append(List<Resource> resourceList) {
-            resourceList.forEach(this::append);
+        public TextBuilder append(List<TemplateResource> templateResourceList) {
+            templateResourceList.forEach(this::append);
             return this;
         }
 

@@ -1,7 +1,11 @@
 package com.macaron.corpresent.domain.user.model.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 马拉圈
@@ -10,6 +14,11 @@ import com.macaron.corpresent.domain.user.model.entity.User;
 * @Entity com.macaron.corpresent.domain.user.model.entity.User
 */
 public interface UserMapper extends BaseMapper<User> {
+
+    /**
+     * 获取用户所有可访问资源
+     */
+    List<Resource> getResourceList(@Param("userId") Long userId);
 
 }
 
