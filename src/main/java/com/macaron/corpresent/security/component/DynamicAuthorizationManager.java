@@ -5,7 +5,7 @@ import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
 import com.macaron.corpresent.security.config.IgnoreUrlsConfig;
 import com.macaron.corpresent.security.handler.RestAuthenticationEntryPoint;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
  * Created by macro on 2023/11/3.
  */
 @Component
+@RequiredArgsConstructor
 public class DynamicAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 
-    @Autowired
-    private DynamicSecurityMetadataSource securityDataSource;
-    @Autowired
-    private IgnoreUrlsConfig ignoreUrlsConfig;
+    private final DynamicSecurityMetadataSource securityDataSource;
+
+    private final IgnoreUrlsConfig ignoreUrlsConfig;
 
     @Override
     public void verify(Supplier<Authentication> authentication, RequestAuthorizationContext object) {

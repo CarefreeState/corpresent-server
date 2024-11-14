@@ -1,6 +1,7 @@
 package com.macaron.corpresent.domain.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.macaron.corpresent.domain.user.model.dto.AssignResourceDTO;
 import com.macaron.corpresent.domain.user.model.entity.RoleResourceRelation;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 */
 public interface RoleResourceRelationService extends IService<RoleResourceRelation> {
 
-    void createRoleResourceRelation(Long roleId, List<Long> resourceIds);
+    void createRoleResourceRelation(Long roleId, AssignResourceDTO assignResourceDTO);
     void removeRoleResourceRelation(Long roleId);
 
     List<Long> queryResourceIdsByRoleId(Long roleId);

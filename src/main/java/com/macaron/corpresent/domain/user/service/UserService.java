@@ -23,7 +23,6 @@ public interface UserService extends IService<User> {
 
     User checkAndGetUserById(Long userId);
     User checkAndGetUserByUsername(String username);
-    User checkAndGetUserByEmail(String email);
 
     User createUser(UserDTO userDTO);
 

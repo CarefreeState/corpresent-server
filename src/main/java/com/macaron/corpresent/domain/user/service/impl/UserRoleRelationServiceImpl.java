@@ -3,6 +3,7 @@ package com.macaron.corpresent.domain.user.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.macaron.corpresent.common.util.convert.ObjectUtil;
 import com.macaron.corpresent.domain.user.model.dao.mapper.UserRoleRelationMapper;
+import com.macaron.corpresent.domain.user.model.dto.AssignRoleDTO;
 import com.macaron.corpresent.domain.user.model.entity.UserRoleRelation;
 import com.macaron.corpresent.domain.user.service.UserRoleRelationService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,10 @@ public class UserRoleRelationServiceImpl extends ServiceImpl<UserRoleRelationMap
 
     @Override
     @Transactional
-    public void createUserRoleRelation(Long userId, List<Long> roleIds) {
+    public void createUserRoleRelation(Long userId, AssignRoleDTO assignRoleDTO) {
         // 删除原有关系
         removeUserRoleRelation(userId);
-        List<UserRoleRelation> userRoleRelationList = ObjectUtil.distinctNonNullStream(roleIds).map(roleId -> {
+        List<UserRoleRelation> userRoleRelationList = ObjectUtil.distinctNonNullStream(assignRoleDTO.getRoleIds()).map(roleId -> {
             UserRoleRelation userRoleRelation = new UserRoleRelation();
             userRoleRelation.setUserId(userId);
             userRoleRelation.setRoleId(roleId);

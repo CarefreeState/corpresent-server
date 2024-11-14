@@ -7,6 +7,7 @@ import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.user.constants.UserConstants;
 import com.macaron.corpresent.domain.user.model.converter.UserConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.UserMapper;
+import com.macaron.corpresent.domain.user.model.dto.AssignRoleDTO;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
 import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
@@ -70,14 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public User checkAndGetUserByUsername(String username) {
         return getUserByUsername(username).orElseThrow(() ->
-                new GlobalServiceException(GlobalServiceStatusCode.USER_ACCOUNT_NOT_EXIST));
-
-    }
-
-    @Override
-    public User checkAndGetUserByEmail(String email) {
-        return getUserByEmail(email).orElseThrow(() ->
-                new GlobalServiceException(GlobalServiceStatusCode.USER_ACCOUNT_NOT_EXIST));
+                new GlobalServiceException(GlobalServiceStatusCode.USER_USERNAME_PASSWORD_ERROR));
     }
 
     @Override
@@ -87,7 +81,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setSort(this.count() * EntitySortConstants.BASE_SORT_NUMBER);
         this.save(user);
         // 设置默认角色
-        userRoleRelationService.createUserRoleRelation(user.getId(), List.of(UserConstants.DEFAULT_ROLE));
+        AssignRoleDTO assignRoleDTO = AssignRoleDTO.builder()
+                .roleIds(List.of(UserConstants.DEFAULT_ROLE))
+                .build();
+        userRoleRelationService.createUserRoleRelation(user.getId(), assignRoleDTO);
         return user;
     }
 

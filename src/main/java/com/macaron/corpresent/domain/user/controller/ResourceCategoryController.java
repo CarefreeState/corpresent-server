@@ -2,7 +2,6 @@ package com.macaron.corpresent.domain.user.controller;
 
 import com.macaron.corpresent.common.SystemJsonResponse;
 import com.macaron.corpresent.domain.user.model.dto.ResourceCategoryDTO;
-import com.macaron.corpresent.domain.user.model.dto.ResourceDTO;
 import com.macaron.corpresent.domain.user.model.vo.ResourceCategoryDetailVO;
 import com.macaron.corpresent.domain.user.model.vo.ResourceCategoryVO;
 import com.macaron.corpresent.domain.user.service.ResourceCategoryService;

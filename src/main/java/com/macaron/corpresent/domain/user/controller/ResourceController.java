@@ -3,6 +3,7 @@ package com.macaron.corpresent.domain.user.controller;
 import com.macaron.corpresent.common.SystemJsonResponse;
 import com.macaron.corpresent.domain.user.model.dto.ResourceDTO;
 import com.macaron.corpresent.domain.user.model.dto.ResourceQueryDTO;
+import com.macaron.corpresent.domain.user.model.vo.ResourceDetailVO;
 import com.macaron.corpresent.domain.user.model.vo.ResourceQueryVO;
 import com.macaron.corpresent.domain.user.service.ResourceCategoryService;
 import com.macaron.corpresent.domain.user.service.ResourceService;
@@ -70,6 +71,13 @@ public class ResourceController {
         // 更新
         resourceService.updateResource(resourceId, resourceDTO);
         return SystemJsonResponse.SYSTEM_SUCCESS();
+    }
+
+    @GetMapping("/detail/{resourceId}")
+    @Operation(summary = "查询资源详情")
+    public SystemJsonResponse<ResourceDetailVO> queryResourceDetail(@PathVariable("resourceId") @NotNull(message = "资源 id 不能为空") Long resourceId) {
+        ResourceDetailVO resourceDetailVO = resourceService.queryResourceDetail(resourceId);
+        return SystemJsonResponse.SYSTEM_SUCCESS(resourceDetailVO);
     }
 
 }
