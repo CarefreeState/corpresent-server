@@ -2,8 +2,6 @@ package com.macaron.corpresent.domain.user.model.dto;
 
 import com.macaron.corpresent.common.base.BasePageQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**

@@ -1,7 +1,7 @@
 package com.macaron.corpresent.common.util.media;
 
-import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.enums.FileResourceType;
+import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.time.TimeUtil;
 import org.springframework.util.StringUtils;

@@ -1,7 +1,5 @@
 package com.macaron.corpresent.jwt;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.convert.JsonUtil;
 import org.springframework.stereotype.Component;
 

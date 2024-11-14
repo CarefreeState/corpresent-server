@@ -4,7 +4,6 @@ import cn.hutool.core.util.URLUtil;
 import com.macaron.corpresent.security.service.DynamicSecurityService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;

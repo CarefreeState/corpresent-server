@@ -1,7 +1,6 @@
 package com.macaron.corpresent.jwt;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.macaron.corpresent.common.util.convert.JsonUtil;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

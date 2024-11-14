@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.macaron.corpresent.domain.user.model.dto.RoleDTO;
 import com.macaron.corpresent.domain.user.model.dto.RoleQueryDTO;
 import com.macaron.corpresent.domain.user.model.entity.Role;
-import com.macaron.corpresent.domain.user.model.vo.ResourceVO;
 import com.macaron.corpresent.domain.user.model.vo.RoleQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.RoleVO;
 

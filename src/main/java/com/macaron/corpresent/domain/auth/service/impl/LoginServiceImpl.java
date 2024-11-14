@@ -1,7 +1,6 @@
 package com.macaron.corpresent.domain.auth.service.impl;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.macaron.corpresent.common.util.convert.JsonUtil;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.vo.LoginVO;
 import com.macaron.corpresent.domain.auth.service.LoginService;

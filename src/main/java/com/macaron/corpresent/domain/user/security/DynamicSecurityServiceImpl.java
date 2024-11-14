@@ -2,7 +2,6 @@ package com.macaron.corpresent.domain.user.security;
 
 import com.macaron.corpresent.domain.user.service.ResourceService;
 import com.macaron.corpresent.security.service.DynamicSecurityService;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;

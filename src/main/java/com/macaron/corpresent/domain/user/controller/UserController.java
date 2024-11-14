@@ -1,7 +1,6 @@
 package com.macaron.corpresent.domain.user.controller;
 
 import com.macaron.corpresent.common.SystemJsonResponse;
-import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.model.vo.UserVO;
 import com.macaron.corpresent.domain.user.service.UserService;
 import com.macaron.corpresent.security.context.BaseContext;
