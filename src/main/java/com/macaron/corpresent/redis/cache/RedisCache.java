@@ -31,7 +31,7 @@ public class RedisCache {
         String message = switch (ttl) {
             case -1 -> "没有设置过期时间";
             case -2 -> "key 不存在";
-            default -> ttl + "  " + TimeUnit.SECONDS.name();
+            default -> ttl + TimeUnit.SECONDS.name();
         };
         log.info("查询 Redis key[{}] 剩余存活时间:{}", jsonKey, message);
         return timeUnit.convert(ttl, TimeUnit.SECONDS);
