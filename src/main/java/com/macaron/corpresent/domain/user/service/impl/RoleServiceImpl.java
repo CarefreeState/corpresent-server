@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.macaron.corpresent.common.base.BasePageQuery;
 import com.macaron.corpresent.common.base.BasePageResult;
+import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
+import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.convert.ObjectUtil;
 import com.macaron.corpresent.domain.user.model.converter.RoleConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.RoleMapper;
@@ -22,6 +24,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
 * @author 马拉圈
@@ -33,6 +36,19 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     implements RoleService{
+
+    @Override
+    public Optional<Role> getRole(Long roleId) {
+        return this.lambdaQuery()
+                .eq(Role::getId, roleId)
+                .oneOpt();
+    }
+
+    @Override
+    public Role checkAndGetRole(Long roleId) {
+        return getRole(roleId).orElseThrow(() ->
+                new GlobalServiceException(GlobalServiceStatusCode.ROLE_NOT_EXISTS));
+    }
 
     @Override
     public Role createRole(RoleDTO roleDTO) {

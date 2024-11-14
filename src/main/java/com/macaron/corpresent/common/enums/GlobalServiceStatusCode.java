@@ -64,9 +64,10 @@ public enum GlobalServiceStatusCode {
     EMAIL_LOGIN_IDENTIFY_CODE_ERROR(3201, "邮箱登录验证码错误"),
     EMAIL_REGISTER_IDENTIFY_CODE_ERROR(3202, "邮箱注册验证码错误"),
 
-    /* 资源错误 4001-5000 */
+    /* 用户权限体系错误 4001-5000 */
     RESOURCE_NOT_EXISTS(4001, "资源不存在"),
     RESOURCE_CATEGORY_NOT_EXISTS(4002, "资源分类不存在"),
+    ROLE_NOT_EXISTS(4003, "角色不存在"),
 
     /* 文件资源错误 6001-7000 */
     FILE_RESOURCE_NOT_VALID(6001, "文件资源非法"),

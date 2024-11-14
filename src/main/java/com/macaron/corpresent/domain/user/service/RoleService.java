@@ -8,6 +8,7 @@ import com.macaron.corpresent.domain.user.model.vo.RoleQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.RoleVO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
 * @author 马拉圈
@@ -15,6 +16,10 @@ import java.util.List;
 * @createDate 2024-11-12 13:22:47
 */
 public interface RoleService extends IService<Role> {
+
+    Optional<Role> getRole(Long roleId);
+
+    Role checkAndGetRole(Long roleId);
 
     Role createRole(RoleDTO roleDTO);
     void removeRole(Long roleId);
