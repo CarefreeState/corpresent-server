@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macaron.corpresent.domain.user.model.dao.mapper.ResourceCategoryMapper">
+
+    <resultMap id="ResourceCategoryDetailMap" type="com.macaron.corpresent.domain.user.model.vo.ResourceCategoryDetailVO">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <association property="resourceVOList" columnPrefix="r_"/>
+    </resultMap>
+
+    <select id="queryResourceCategoryDetail" resultMap="ResourceCategoryDetailMap">
+        select
+            rc.id, rc.name, rc.create_time,
+            r.id r_id, r.category_id r_category_id, r.path r_path, r.name r_name,
+            r.is_blocked r_is_blocked, r.description r_description, r.create_time r_create_time
+        from resource_category rc
+             left join resource r on rc.id = r.category_id and rc.is_deleted = 0 and r.is_deleted = 0
+        order by r.create_time, r_create_time
+    </select>
+</mapper>

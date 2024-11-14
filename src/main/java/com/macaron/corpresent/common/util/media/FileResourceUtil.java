@@ -1,7 +1,7 @@
 package com.macaron.corpresent.common.util.media;
 
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
-import com.macaron.corpresent.common.enums.ResourceType;
+import com.macaron.corpresent.common.enums.FileResourceType;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.time.TimeUtil;
 import org.springframework.util.StringUtils;
@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 import java.util.UUID;
 
-import static com.macaron.corpresent.common.enums.ResourceType.*;
+import static com.macaron.corpresent.common.enums.FileResourceType.*;
 
 /**
  * Created With Intellij IDEA
@@ -19,34 +19,34 @@ import static com.macaron.corpresent.common.enums.ResourceType.*;
  * Date: 2024-09-23
  * Time: 12:31
  */
-public class ResourceUtil {
+public class FileResourceUtil {
 
     public static void checkOriginalName(String originalName) {
         // 判断是否有非空字符以及是否有后缀
         if (!StringUtils.hasText(originalName) || !originalName.contains(".") || originalName.lastIndexOf(".") + 1 == originalName.length()) {
-            throw new GlobalServiceException(String.format("资源名非法 %s", originalName), GlobalServiceStatusCode.RESOURCE_NOT_VALID);
+            throw new GlobalServiceException(String.format("资源名非法 %s", originalName), GlobalServiceStatusCode.FILE_RESOURCE_NOT_VALID);
         }
     }
 
     public static void checkSuffix(String suffix) {
         if (!StringUtils.hasText(suffix)|| suffix.length() <= 1 || !suffix.contains(".")) {
-            throw new GlobalServiceException(String.format("后缀非法 %s", suffix), GlobalServiceStatusCode.RESOURCE_NOT_VALID);
+            throw new GlobalServiceException(String.format("后缀非法 %s", suffix), GlobalServiceStatusCode.FILE_RESOURCE_NOT_VALID);
         }
     }
 
     public static void checkExtension(String extension) {
         if (!StringUtils.hasText(extension)) {
-            throw new GlobalServiceException(String.format("扩展名非法 %s", extension), GlobalServiceStatusCode.RESOURCE_NOT_VALID);
+            throw new GlobalServiceException(String.format("扩展名非法 %s", extension), GlobalServiceStatusCode.FILE_RESOURCE_NOT_VALID);
         }
     }
 
-    public static boolean matchType(String contentType, ResourceType resourceType) {
-        return contentType.startsWith(resourceType.getContentTypeSuffix());
+    public static boolean matchType(String contentType, FileResourceType fileResourceType) {
+        return contentType.startsWith(fileResourceType.getContentTypeSuffix());
     }
 
-    public static void checkType(String contentType, ResourceType resourceType) {
-        if(!matchType(contentType, resourceType)) {
-            throw new GlobalServiceException(GlobalServiceStatusCode.RESOURCE_TYPE_NOT_MATCH);
+    public static void checkType(String contentType, FileResourceType fileResourceType) {
+        if(!matchType(contentType, fileResourceType)) {
+            throw new GlobalServiceException(GlobalServiceStatusCode.FILE_RESOURCE_TYPE_NOT_MATCH);
         }
     }
 

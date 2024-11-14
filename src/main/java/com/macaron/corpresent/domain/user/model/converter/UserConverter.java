@@ -2,6 +2,7 @@ package com.macaron.corpresent.domain.user.model.converter;
 
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
 import com.macaron.corpresent.domain.user.model.entity.User;
+import com.macaron.corpresent.domain.user.model.vo.UserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -18,5 +19,7 @@ public interface UserConverter {
     UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
     User userDTOToUser(UserDTO userDTO);
+
+    UserVO userToUserVO(User user);
 
 }

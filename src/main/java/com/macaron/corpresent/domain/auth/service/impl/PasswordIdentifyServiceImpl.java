@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
  * Time: 0:29
  */
 @Service
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class PasswordIdentifyServiceImpl implements PasswordIdentifyService {
 
     private final ValidateService validateService;

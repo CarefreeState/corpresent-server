@@ -2,6 +2,7 @@ package com.macaron.corpresent.common.base;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,16 +24,22 @@ import java.util.function.Function;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@Schema(description = "分页查询结果集")
 public class BasePageResult<T> {
 
+    @Schema(description = "当前页")
     private Long current;
 
+    @Schema(description = "页内大小")
     private Long pageSize;
 
+    @Schema(description = "总条数")
     private Long total;
 
+    @Schema(description = "总页数")
     private Long pages;
 
+    @Schema(description = "页内元素集合")
     private List<T> list;
 
     /**

@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ResourceType {
+public enum FileResourceType {
 
     IMAGE("image"),
     VIDEO("video"),

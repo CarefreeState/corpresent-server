@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     public SystemJsonResponse<?> handleFileUploadException(FileUploadException e, HttpServletRequest request, HttpServletResponse response) {
         logError(request, response, e);
         String message = "文件上传异常";
-        return SystemJsonResponse.CUSTOMIZE_MSG_ERROR(RESOURCE_NOT_VALID, message);
+        return SystemJsonResponse.CUSTOMIZE_MSG_ERROR(FILE_RESOURCE_NOT_VALID, message);
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class})

@@ -9,5 +9,6 @@ package com.macaron.corpresent.domain.user.constants;
  */
 public interface UserConstants {
 
+    Long DEFAULT_ROLE = 2L; // 用户注册时默认的客户
 
 }

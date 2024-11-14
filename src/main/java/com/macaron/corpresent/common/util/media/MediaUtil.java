@@ -116,7 +116,7 @@ public class MediaUtil {
         try(InputStream inputStream = MediaUtil.getInputStream(data)) {
             return getContentType(inputStream);
         } catch (IOException e) {
-            throw new GlobalServiceException(e.getMessage(), GlobalServiceStatusCode.RESOURCE_NOT_VALID);
+            throw new GlobalServiceException(e.getMessage(), GlobalServiceStatusCode.FILE_RESOURCE_NOT_VALID);
         }
     }
 
@@ -126,7 +126,7 @@ public class MediaUtil {
         if(!tempDir.exists()) {
             tempDir.mkdir();
         }
-        return tempResourcePath + ResourceUtil.getSimpleFileName(suffix);
+        return tempResourcePath + FileResourceUtil.getSimpleFileName(suffix);
     }
 
     private static FileOutputStream createAndGetFileOutputStream(File file) throws IOException {
@@ -143,7 +143,7 @@ public class MediaUtil {
     }
 
     public static <T> T createTempFileGetSomething(String originalName, byte[] data, Function<File, T> converter) {
-        String fileNameSuffix = ResourceUtil.getSuffix(originalName);
+        String fileNameSuffix = FileResourceUtil.getSuffix(originalName);
         // 获取即将创建的临时文件的路径
         String tempFilePath = getTempFilePath(fileNameSuffix);
         File tempFile = new File(tempFilePath);

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
 import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
+import com.macaron.corpresent.domain.user.model.vo.UserVO;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,15 +17,16 @@ import java.util.Optional;
 public interface UserService extends IService<User> {
 
     Optional<User> getUserById(Long userId);
-
     Optional<User> getUserByUsername(String username);
     Optional<User> getUserByEmail(String email);
+    List<Resource> getResourceListByUserId(Long userId);
 
-    User createUser(UserDTO userDTO);
-
+    User checkAndGetUserById(Long userId);
     User checkAndGetUserByUsername(String username);
     User checkAndGetUserByEmail(String email);
 
-    List<Resource> getResourceListByUserId(Long userId);
+    User createUser(UserDTO userDTO);
+
+    UserVO getUserVOById(Long userId);
 
 }

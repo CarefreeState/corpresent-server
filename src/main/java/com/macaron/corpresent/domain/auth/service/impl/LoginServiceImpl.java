@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service;
  * Date: 2024-11-12
  * Time: 18:01
  */
-@Slf4j
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
 

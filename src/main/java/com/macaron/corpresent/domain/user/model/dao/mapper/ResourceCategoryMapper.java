@@ -2,6 +2,9 @@ package com.macaron.corpresent.domain.user.model.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.macaron.corpresent.domain.user.model.entity.ResourceCategory;
+import com.macaron.corpresent.domain.user.model.vo.ResourceCategoryDetailVO;
+
+import java.util.List;
 
 /**
 * @author 马拉圈
@@ -10,6 +13,8 @@ import com.macaron.corpresent.domain.user.model.entity.ResourceCategory;
 * @Entity com.macaron.corpresent.domain.user.model.entity.ResourceCategory
 */
 public interface ResourceCategoryMapper extends BaseMapper<ResourceCategory> {
+
+    List<ResourceCategoryDetailVO> queryResourceCategoryDetail();
 
 }
 

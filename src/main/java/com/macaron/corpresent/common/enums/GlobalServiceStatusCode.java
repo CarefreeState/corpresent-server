@@ -59,34 +59,21 @@ public enum GlobalServiceStatusCode {
     EMAIL_ATTACH_SEND_FAIL(3004, "邮箱附件发送失败"),
 
     EMAIL_NOT_EXIST_RECORD(3101, "邮箱不存在记录"),
-    EMAIL_IDENTIFY_CODE_COUNT_EXHAUST(3103, "申请次数达到上限"),
+    EMAIL_IDENTIFY_CODE_COUNT_EXHAUST(3102, "申请次数达到上限"),
 
     EMAIL_LOGIN_IDENTIFY_CODE_ERROR(3201, "邮箱登录验证码错误"),
     EMAIL_REGISTER_IDENTIFY_CODE_ERROR(3202, "邮箱注册验证码错误"),
 
-    /* 枚举错误 4001-5000 */
-    LOGIN_TYPE_NOT_EXISTS(4001, "登录方式不存在"),
-    REGISTER_TYPE_NOT_EXISTS(4002, "注册方式不存在"),
-    EMAIL_IDENTIFY_TYPE_NOT_EXISTS(4003, "邮箱验证方式不存在"),
+    /* 资源错误 4001-5000 */
+    RESOURCE_NOT_EXISTS(4001, "资源不存在"),
+    RESOURCE_CATEGORY_NOT_EXISTS(4002, "资源分类不存在"),
 
-    /* 资源错误 7001-8000 */
-    RESOURCE_LEVEL_NOT_EXISTS(7001, "资源权限不存在"),
-    RESOURCE_NOT_EXISTS(7002, "资源不存在"),
-    RESOURCE_CANNOT_BE_ACCESSED(7003, "资源不能被访问"),
-    RESOURCE_UPLOAD_FAILED(7004, "资源上传失败"),
-    RESOURCE_UPLOAD_TOO_FREQUENT(7005, "资源上传太频繁了"),
-    RESOURCE_UPLOAD_BLOCKED(7006, "资源上传被阻止"),
-    RESOURCE_REMOVE_FAILED(7007, "资源删除失败"),
-    RESOURCE_LOAD_FAILED(7008, "资源加载失败"),
-    RESOURCE_PREVIEW_FAILED(7009, "资源预览失败"),
-    RESOURCE_DOWNLOAD_FAILED(7010, "资源下载失败"),
-    RESOURCE_GET_OBJECT_URL_FAILED(7011, "获取资源 url 失败"),
-    RESOURCE_NOT_VALID(7012, "资源非法"),
-    RESOURCE_IS_BLANK(7013, "资源为空"),
-    RESOURCE_TYPE_NOT_MATCH(7014, "资源类型不匹配"),
+    /* 文件资源错误 6001-7000 */
+    FILE_RESOURCE_NOT_VALID(6001, "文件资源非法"),
+    FILE_RESOURCE_TYPE_NOT_MATCH(6002, "文件资源类型不匹配"),
 
-    /*WebSocket想关*/
-    USER_NOT_ONLINE(10000, "用户不在线"),
+    /* WebSocket想关错误 7001-8000 */
+    USER_NOT_ONLINE(7001, "用户不在线"),
 
     /* -------------- */;
 

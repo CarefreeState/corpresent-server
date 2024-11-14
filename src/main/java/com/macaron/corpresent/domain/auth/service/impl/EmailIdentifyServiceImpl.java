@@ -33,8 +33,8 @@ import static com.macaron.corpresent.email.enums.EmailTemplate.EMAIL_IDENTIFY;
  * Time: 16:47
  */
 @Service
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class EmailIdentifyServiceImpl implements EmailIdentifyService {
 
     private final HtmlEngine htmlEngine;

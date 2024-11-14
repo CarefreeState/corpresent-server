@@ -3,6 +3,8 @@ package com.macaron.corpresent.common.base;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.CollectionUtils;
@@ -24,14 +26,21 @@ import static com.macaron.corpresent.common.constants.MyBatisPageConstants.*;
  */
 @Getter
 @Setter
+//@Schema(description = "分页查询参数")
 public class BasePageQuery {
 
+    @Schema(description = "当前页")
     private Long current;
 
+    @Schema(description = "页内大小")
     private Long pageSize;
 
+    @Schema(description = "排序字段")
+    @JsonIgnore
     private String sortBy;
 
+    @Schema(description = "是否正序")
+    @JsonIgnore
     private Boolean isAsc;
 
     private void init() {
