@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @Validated
-@Tag(name = "认证校验（无需登录/无需权限）")
+@Tag(name = "认证校验（无需登录和权限）") // OpenAPI @Tag 的 name 代表路径，注意斜杆是否符合实际含义
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
