@@ -4,7 +4,7 @@ import com.macaron.corpresent.common.util.http.SnowflakeIdGenerator;
 import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
 import com.macaron.corpresent.config.RequestIdConfig;
 import com.macaron.corpresent.jwt.JwtUtil;
-import com.macaron.corpresent.jwt.UserHelper;
+import com.macaron.corpresent.security.context.UserHelper;
 import com.macaron.corpresent.security.context.BaseContext;
 import com.macaron.corpresent.security.handler.RestfulAccessDeniedHandler;
 import jakarta.servlet.FilterChain;

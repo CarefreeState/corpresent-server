@@ -9,7 +9,7 @@ import com.macaron.corpresent.domain.auth.service.LoginService;
 import com.macaron.corpresent.domain.auth.strategy.LoginStrategy;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.jwt.JwtUtil;
-import com.macaron.corpresent.jwt.UserHelper;
+import com.macaron.corpresent.security.context.UserHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
