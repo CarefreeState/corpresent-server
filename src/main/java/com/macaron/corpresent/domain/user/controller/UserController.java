@@ -1,10 +1,7 @@
 package com.macaron.corpresent.domain.user.controller;
 
 import com.macaron.corpresent.common.SystemJsonResponse;
-import com.macaron.corpresent.domain.user.model.dto.AssignRoleDTO;
-import com.macaron.corpresent.domain.user.model.dto.BlockUserDTO;
-import com.macaron.corpresent.domain.user.model.dto.RenameUserDTO;
-import com.macaron.corpresent.domain.user.model.dto.UserQueryDTO;
+import com.macaron.corpresent.domain.user.model.dto.*;
 import com.macaron.corpresent.domain.user.model.vo.RoleVO;
 import com.macaron.corpresent.domain.user.model.vo.UserQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.UserVO;
@@ -80,7 +77,6 @@ public class UserController {
     public SystemJsonResponse<?> assignRolesForUser(@PathVariable("userId") @NotNull(message = "用户 id 不能为空") Long userId,
                                                     @Valid @RequestBody AssignRoleDTO assignRoleDTO) {
         userService.checkAndGetUserById(userId);
-        // todo: 判断当前用户是否可以访问关联的所有的资源
         userRoleRelationService.createUserRoleRelation(userId, assignRoleDTO);
         return SystemJsonResponse.SYSTEM_SUCCESS();
     }
@@ -102,6 +98,11 @@ public class UserController {
         return SystemJsonResponse.SYSTEM_SUCCESS();
     }
 
-    // todo: 拖拽排序
+    @PutMapping("/sort")
+    @Operation(summary = "用户拖拽排序")
+    public SystemJsonResponse<?> sortUser(@Valid @RequestBody SortUserDTO sortUserDTO) {
+        userService.sortUser(sortUserDTO);
+        return SystemJsonResponse.SYSTEM_SUCCESS();
+    }
 
 }

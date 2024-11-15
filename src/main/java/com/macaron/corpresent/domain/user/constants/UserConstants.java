@@ -11,4 +11,6 @@ public interface UserConstants {
 
     Long DEFAULT_ROLE = 2L; // 用户注册时默认的客户
 
+    String SORT_USER_LOCK = "sortLockUser"; // 排序用户的时候需要用锁保证没有并发问题
+
 }

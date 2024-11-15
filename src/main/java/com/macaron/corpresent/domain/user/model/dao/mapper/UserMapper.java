@@ -6,6 +6,7 @@ import com.macaron.corpresent.domain.user.model.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
 * @author 马拉圈
@@ -19,6 +20,10 @@ public interface UserMapper extends BaseMapper<User> {
      * 获取用户所有可访问资源
      */
     List<Resource> getResourceList(@Param("userId") Long userId);
+
+    Optional<User> getPreUser(@Param("userId") Long userId);
+
+    Optional<User> getNextUser(@Param("userId") Long userId);
 
 }
 

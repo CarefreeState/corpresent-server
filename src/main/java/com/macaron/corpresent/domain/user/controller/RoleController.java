@@ -91,7 +91,6 @@ public class RoleController {
     public SystemJsonResponse<?> assignResourcesForRole(@PathVariable("roleId") @NotNull(message = "角色 id 不能为空") Long roleId,
                                                         @Valid @RequestBody AssignResourceDTO assignResourceDTO) {
         roleService.checkAndGetRole(roleId);
-        // todo: 判断当前用户是否可以访问关联的所有的资源
         roleResourceRelationService.createRoleResourceRelation(roleId, assignResourceDTO);
         return SystemJsonResponse.SYSTEM_SUCCESS();
     }

@@ -13,8 +13,4 @@ public interface MyBatisPageConstants {
 
     Long DEFAULT_PAGE_SIZE = 10L;
 
-    String DEFAULT_SORT_BY = "create_time";
-
-    Boolean DEFAULT_IS_ASC = Boolean.TRUE;
-
 }

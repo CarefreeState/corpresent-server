@@ -35,24 +35,9 @@ public class BasePageQuery {
     @Schema(description = "页内大小")
     private Long pageSize;
 
-    @Schema(description = "排序字段")
-    @JsonIgnore
-    private String sortBy;
-
-    @Schema(description = "是否正序")
-    @JsonIgnore
-    private Boolean isAsc;
-
     private void init() {
         current = Optional.ofNullable(current).orElse(DEFAULT_CURRENT);
         pageSize = Optional.ofNullable(pageSize).orElse(DEFAULT_PAGE_SIZE);
-        sortBy = Optional.ofNullable(sortBy).orElse(DEFAULT_SORT_BY);
-        isAsc = Optional.ofNullable(isAsc).orElse(DEFAULT_IS_ASC);
-    }
-
-
-    private static OrderItem buildOrderItem(String column, boolean asc) {
-        return (new OrderItem()).setColumn(column).setAsc(asc);
     }
 
     public <T> IPage<T> toMpPage(OrderItem... orders){
@@ -60,7 +45,6 @@ public class BasePageQuery {
         init();
         // 1.分页条件
         Page<T> page = Page.of(current, pageSize);
-        page.addOrder(buildOrderItem(sortBy, isAsc));
         // 2.排序条件
         List<OrderItem> orderItemList = Arrays.stream(orders)
                 .filter(Objects::nonNull)
@@ -70,6 +54,10 @@ public class BasePageQuery {
             page.addOrder(orderItemList);
         }
         return page;
+    }
+
+    private OrderItem buildOrderItem(String column, boolean asc) {
+        return (new OrderItem()).setColumn(column).setAsc(asc);
     }
 
     public <T> IPage<T> toMpPage(String sortBy, boolean isAsc){

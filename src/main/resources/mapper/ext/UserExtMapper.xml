@@ -18,4 +18,26 @@
         order by r2.create_time
     </select>
 
+    <select id="getPreUser" parameterType="java.lang.Long" resultMap="BaseResultMap">
+       select
+           u2.*
+       from user u1
+           left join user u2 on u2.sort &lt; u1.sort and u1.is_deleted = 0 and u2.is_deleted = 0
+       where
+           u1.id = #{userId,jdbcType=BIGINT} and u1.is_deleted = 0 and u2.id is not null
+       order by u2.sort desc
+       limit 1 offset 0
+    </select>
+
+   <select id="getNextUser" parameterType="java.lang.Long" resultMap="BaseResultMap">
+       select
+            u2.*
+        from user u1
+            left join user u2 on u2.sort &gt; u1.sort and u1.is_deleted = 0 and u2.is_deleted = 0
+        where
+            u1.id = #{userId,jdbcType=BIGINT} and u1.is_deleted = 0 and u2.id is not null
+        order by u2.sort asc
+        limit 1 offset 0
+    </select>
+
 </mapper>

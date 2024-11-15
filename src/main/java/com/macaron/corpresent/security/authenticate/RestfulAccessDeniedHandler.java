@@ -29,7 +29,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
         log.error(ThreadLocalMapUtil.append(ACCESS_DENIED_EXCEPTION_MESSAGE, e.getMessage()));
         handlerExceptionResolver.resolveException(request, response, null, new GlobalServiceException(
-                GlobalServiceStatusCode.USER_NO_PERMISSION)
+                GlobalServiceStatusCode.USER_NO_AUTHENTICATED)
         );
     }
 }
