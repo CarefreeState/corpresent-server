@@ -23,6 +23,9 @@ public class RoleVO {
     @Schema(description = "角色描述")
     private String description;
 
+    @Schema(description = "创建时间")
+    protected Long createTime;
+
     @Schema(description = "是否禁用")
     private Boolean isBlocked;
 

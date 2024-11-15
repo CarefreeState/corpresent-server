@@ -238,6 +238,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 分页
         IPage<User> userIPage = this.lambdaQuery()
                 .like(StringUtils.hasText(name), User::getUsername, name)
+                .or()
                 .like(StringUtils.hasText(name), User::getNickname, name)
                 .orderBy(Boolean.TRUE, Boolean.TRUE, User::getSort)
                 .page(page);

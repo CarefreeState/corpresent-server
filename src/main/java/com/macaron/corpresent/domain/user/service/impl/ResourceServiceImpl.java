@@ -8,12 +8,14 @@ import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.convert.ObjectUtil;
 import com.macaron.corpresent.domain.user.annotation.ResourceClear;
+import com.macaron.corpresent.domain.user.model.converter.ResourceCategoryConverter;
 import com.macaron.corpresent.domain.user.model.converter.ResourceConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.ResourceMapper;
 import com.macaron.corpresent.domain.user.model.dto.ResourceDTO;
 import com.macaron.corpresent.domain.user.model.dto.ResourceQueryDTO;
 import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.ResourceCategory;
+import com.macaron.corpresent.domain.user.model.vo.ResourceCategoryVO;
 import com.macaron.corpresent.domain.user.model.vo.ResourceDetailVO;
 import com.macaron.corpresent.domain.user.model.vo.ResourceQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.ResourceVO;
@@ -130,7 +132,10 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
     public ResourceDetailVO queryResourceDetail(Long resourceId) {
         Resource resource = checkAndGetResource(resourceId);
         ResourceCategory resourceCategory = resourceCategoryService.getResourceCategory(resource.getCategoryId()).orElse(null);
-        return ResourceConverter.INSTANCE.resourceCategoryToResourceDetailVO(resource, resourceCategory);
+        ResourceCategoryVO resourceCategoryVO = ResourceCategoryConverter.INSTANCE.resourceCategoryToResourceCategoryVO(resourceCategory);
+        ResourceDetailVO resourceDetailVO = ResourceConverter.INSTANCE.resourceCategoryToResourceDetailVO(resource);
+        resourceDetailVO.setResourceCategoryVO(resourceCategoryVO);
+        return resourceDetailVO;
     }
 }
 

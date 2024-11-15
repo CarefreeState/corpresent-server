@@ -20,4 +20,7 @@ public class ResourceCategoryVO {
     @Schema(description = "资源分类名称")
     private String name;
 
+    @Schema(description = "创建时间")
+    protected Long createTime;
+
 }

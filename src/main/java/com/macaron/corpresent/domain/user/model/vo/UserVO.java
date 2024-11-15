@@ -38,5 +38,4 @@ public class UserVO {
     @Schema(description = "是否禁用")
     private Boolean isBlocked;
 
-
 }

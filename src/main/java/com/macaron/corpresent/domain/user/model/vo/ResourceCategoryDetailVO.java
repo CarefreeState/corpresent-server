@@ -22,6 +22,9 @@ public class ResourceCategoryDetailVO {
     @Schema(description = "资源分类名称")
     private String name;
 
+    @Schema(description = "创建时间")
+    protected Long createTime;
+
     @Schema(description = "资源列表")
     private List<ResourceVO> resourceVOList;
 

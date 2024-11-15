@@ -40,6 +40,7 @@
 				<spring.application.version>${version}</spring.application.version>
 				<profiles.active>dev</profiles.active>
 				<logging.level>info</logging.level>
+<!--				<logging.level>debug</logging.level>-->
 			</properties>
 			<activation>
 				<!--默认环境-->
