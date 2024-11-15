@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.macaron.corpresent.common.base.BasePageQuery;
 import com.macaron.corpresent.common.base.BasePageResult;
-import com.macaron.corpresent.common.constants.EntitySortConstants;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.user.constants.UserConstants;
@@ -32,7 +31,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.macaron.corpresent.common.constants.EntitySortConstants.*;
+import static com.macaron.corpresent.common.constants.EntitySortConstants.BASE_SORT_NUMBER;
+import static com.macaron.corpresent.common.constants.EntitySortConstants.MIN_SORT_PRECISION;
 
 /**
 * @author 马拉圈

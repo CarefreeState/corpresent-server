@@ -1,7 +1,6 @@
 package com.macaron.corpresent.domain.user.util;
 
 import com.macaron.corpresent.common.util.juc.ThreadPoolUtil;
-import com.macaron.corpresent.email.aspect.EmailAsynchronousThreadPool;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadPoolExecutor;

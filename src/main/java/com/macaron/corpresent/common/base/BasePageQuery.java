@@ -3,7 +3,6 @@ package com.macaron.corpresent.common.base;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.macaron.corpresent.common.constants.MyBatisPageConstants.*;
+import static com.macaron.corpresent.common.constants.MyBatisPageConstants.DEFAULT_CURRENT;
+import static com.macaron.corpresent.common.constants.MyBatisPageConstants.DEFAULT_PAGE_SIZE;
 
 
 /**
