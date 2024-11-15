@@ -22,7 +22,7 @@ public class ResourceDetailVO {
     private ResourceCategoryVO resourceCategoryVO;
 
     @Schema(description = "资源路径")
-    private String path;
+    private String pattern;
 
     @Schema(description = "资源名称")
     private String name;

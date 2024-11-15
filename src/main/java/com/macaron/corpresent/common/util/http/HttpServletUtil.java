@@ -67,7 +67,7 @@ public class HttpServletUtil {
 
     public static void returnBytes(String downloadName, byte[] bytes, HttpServletResponse response) {
         // 在设置内容类型之前设置下载的文件名称
-        response.addHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; fileName=%s", HttpRequestUtil.encodeString(downloadName)));
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; fileName=%s", HttpRequestUtil.encodeString(downloadName)));
         returnBytes(bytes, response);
     }
 
@@ -83,7 +83,7 @@ public class HttpServletUtil {
     /**
      * 获取请求真实IP地址
      */
-    public static String getRequestIp(HttpServletRequest request) throws UnknownHostException {
+    public static String getIP(HttpServletRequest request) {
         //通过HTTP代理服务器转发时添加
         String ipAddress = request.getHeader("x-forwarded-for");
         if (!StringUtils.hasText(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
@@ -96,7 +96,11 @@ public class HttpServletUtil {
             ipAddress = request.getRemoteAddr();
             // 从本地访问时根据网卡取本机配置的IP
             if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
-                ipAddress = InetAddress.getLocalHost().getHostAddress();
+                try {
+                    ipAddress = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException e) {
+                    throw new GlobalServiceException(e.getMessage());
+                }
             }
         }
         // 通过多个代理转发的情况，第一个IP为客户端真实IP，多个IP会按照','分割

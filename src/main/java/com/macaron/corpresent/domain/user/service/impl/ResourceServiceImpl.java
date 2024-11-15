@@ -81,13 +81,13 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
         // 解析分页参数获取 page
         IPage<Resource> page = null;
         Long categoryId = null;
-        String path = null;
+        String pattern = null;
         String name = null;
         // 获取条件分页查询参数
         if(Objects.nonNull(resourceQueryDTO)) {
             page = resourceQueryDTO.toMpPage();
             categoryId = resourceQueryDTO.getCategoryId();
-            path = resourceQueryDTO.getPath();
+            pattern = resourceQueryDTO.getPattern();
             name = resourceQueryDTO.getName();
         } else {
             page = new BasePageQuery().toMpPage();
@@ -95,7 +95,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
         // 分页
         IPage<Resource> resourceIPage = this.lambdaQuery()
                 .eq(Objects.nonNull(categoryId), Resource::getCategoryId, categoryId)
-                .like(StringUtils.hasText(path), Resource::getPath, path)
+                .like(StringUtils.hasText(pattern), Resource::getPattern, pattern)
                 .like(StringUtils.hasText(name), Resource::getName, name)
                 .page(page);
         // 封装

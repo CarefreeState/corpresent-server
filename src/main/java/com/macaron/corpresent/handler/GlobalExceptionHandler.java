@@ -2,6 +2,7 @@ package com.macaron.corpresent.handler;
 
 import com.macaron.corpresent.common.SystemJsonResponse;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
+import com.macaron.corpresent.common.util.http.HttpServletUtil;
 import com.macaron.corpresent.config.RequestIdConfig;
 import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,8 +41,8 @@ public class GlobalExceptionHandler {
     private final RequestIdConfig requestIdConfig;
 
     public void logError(HttpServletRequest request, HttpServletResponse response, Exception e) {
-        log.error("请求 {} 访问接口 {} {}，响应 HTTP 状态码 {}，错误信息 {}",
-                response.getHeader(requestIdConfig.getHeader()), request.getMethod(), request.getRequestURI(), response.getStatus(),
+        log.error("请求 {} IP {} 访问接口 {} {}，响应 HTTP 状态码 {}，错误信息 {}",
+                response.getHeader(requestIdConfig.getHeader()), HttpServletUtil.getIP(request), request.getMethod(), request.getRequestURI(), response.getStatus(),
                 Optional.ofNullable(e).map(Exception::getMessage).orElse(null)
         );
     }

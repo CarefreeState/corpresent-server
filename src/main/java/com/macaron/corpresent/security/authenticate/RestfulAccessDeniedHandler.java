@@ -1,8 +1,8 @@
-package com.macaron.corpresent.security.handler;
+package com.macaron.corpresent.security.authenticate;
 
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
-import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
+import com.macaron.corpresent.common.util.juc.ThreadLocalMapUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

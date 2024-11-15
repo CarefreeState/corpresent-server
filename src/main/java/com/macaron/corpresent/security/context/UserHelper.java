@@ -1,6 +1,9 @@
 package com.macaron.corpresent.security.context;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Created With Intellij IDEA
@@ -9,8 +12,7 @@ import lombok.*;
  * Date: 2024-11-11
  * Time: 23:10
  */
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

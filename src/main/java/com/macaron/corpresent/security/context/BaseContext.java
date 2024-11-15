@@ -1,6 +1,6 @@
 package com.macaron.corpresent.security.context;
 
-import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
+import com.macaron.corpresent.common.util.juc.ThreadLocalMapUtil;
 
 /**
  * @author cattleYuan

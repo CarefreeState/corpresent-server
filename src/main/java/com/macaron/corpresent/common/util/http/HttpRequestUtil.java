@@ -8,7 +8,9 @@ import com.macaron.corpresent.common.enums.HttpRequestDescription;
 import com.macaron.corpresent.common.util.convert.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -35,9 +37,15 @@ public class HttpRequestUtil {
 
     public final static Map<String, String> JSON_CONTENT_TYPE_HEADER = Map.of(HttpHeaders.CONTENT_TYPE, "application/json; charset=utf-8");
 
-    public static final Pattern HTTP_URL_PATTERN = Pattern.compile("^(?i)(http|https):(//(([^@\\[/?#]*)@)?(\\[[\\p{XDigit}:.]*[%\\p{Alnum}]*]|[^\\[/?#:]*)(:(\\{[^}]+\\}?|[^/?#]*))?)?([^?#]*)(\\?([^#]*))?(#(.*))?");
+    public final static Pattern HTTP_URL_PATTERN = Pattern.compile("^(?i)(http|https):(//(([^@\\[/?#]*)@)?(\\[[\\p{XDigit}:.]*[%\\p{Alnum}]*]|[^\\[/?#:]*)(:(\\{[^}]+\\}?|[^/?#]*))?)?([^?#]*)(\\?([^#]*))?(#(.*))?");
 
-    private static final int MAX_REDIRECT_COUNT = 10;
+    public final static PathMatcher PATH_MATCHER = new AntPathMatcher();
+
+    private final static int MAX_REDIRECT_COUNT = 10;
+
+    public static boolean matchPath(String pattern, String path) {
+        return PATH_MATCHER.match(pattern, path);
+    }
 
     public static boolean isHttpUrl(String url) {
         return StringUtils.hasText(url) && HTTP_URL_PATTERN.matcher(url).matches();

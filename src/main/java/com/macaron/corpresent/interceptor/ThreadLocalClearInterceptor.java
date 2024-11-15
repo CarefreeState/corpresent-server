@@ -1,6 +1,7 @@
 package com.macaron.corpresent.interceptor;
 
-import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
+import com.macaron.corpresent.common.util.http.HttpServletUtil;
+import com.macaron.corpresent.common.util.juc.ThreadLocalMapUtil;
 import com.macaron.corpresent.config.RequestIdConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,8 +30,8 @@ public class ThreadLocalClearInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         try {
             String requestId = response.getHeader(requestIdConfig.getHeader());
-            log.warn("请求 {} 访问接口 {} {}，响应 HTTP 状态码 {}，错误信息 {}",
-                    requestId, request.getMethod(), request.getRequestURI(), response.getStatus(),
+            log.warn("请求 {} IP {} 访问接口 {} {}，响应 HTTP 状态码 {}，错误信息 {}",
+                    requestId, HttpServletUtil.getIP(request), request.getMethod(), request.getRequestURI(), response.getStatus(),
                     Optional.ofNullable(ex).map(Exception::getMessage).orElse(null)
             );
         }finally {

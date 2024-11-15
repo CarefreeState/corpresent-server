@@ -49,6 +49,7 @@ public class ResourceController {
         resourceCategoryService.checkAndGetResourceCategory(resourceDTO.getCategoryId());
         // 添加
         Long resourceId = resourceService.createResource(resourceDTO).getId();
+        // 刷新本地对资源的缓存
         return SystemJsonResponse.SYSTEM_SUCCESS(resourceId);
     }
 
@@ -59,6 +60,7 @@ public class ResourceController {
         resourceService.checkAndGetResource(resourceId);
         // 删除
         resourceService.removeResource(resourceId);
+        // 刷新本地对资源的缓存
         return SystemJsonResponse.SYSTEM_SUCCESS();
     }
 
@@ -70,6 +72,7 @@ public class ResourceController {
         resourceService.checkAndGetResource(resourceId);
         // 更新
         resourceService.updateResource(resourceId, resourceDTO);
+        // 刷新本地对资源的缓存
         return SystemJsonResponse.SYSTEM_SUCCESS();
     }
 

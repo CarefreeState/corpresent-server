@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="com.macaron.corpresent.domain.user.model.entity.Resource">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
-            <result property="path" column="path" jdbcType="VARCHAR"/>
+            <result property="pattern" column="pattern" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
             <result property="version" column="version" jdbcType="INTEGER"/>
@@ -18,7 +18,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,category_id,path,
+        id,category_id,pattern,
         name,description,version,
         is_deleted,create_time,update_time,
         is_blocked

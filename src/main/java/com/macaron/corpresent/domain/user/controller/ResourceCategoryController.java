@@ -68,7 +68,7 @@ public class ResourceCategoryController {
     @PutMapping("/update/{categoryId}")
     @Operation(summary = "更新一个资源分类")
     public SystemJsonResponse<?> updateResourceCategory(@PathVariable("categoryId") @NotNull(message = "资源分类 id 不能为空") Long categoryId,
-                                                @Valid @RequestBody ResourceCategoryDTO resourceCategoryDTO) {
+                                                        @Valid @RequestBody ResourceCategoryDTO resourceCategoryDTO) {
         // 判断资源分类是否存在
         resourceCategoryService.checkAndGetResourceCategory(categoryId);
         // 更新

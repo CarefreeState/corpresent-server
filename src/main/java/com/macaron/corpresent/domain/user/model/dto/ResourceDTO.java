@@ -22,7 +22,7 @@ public class ResourceDTO {
 
     @NotBlank(message = "资源路径不能为空")
     @Schema(description = "资源路径")
-    private String path;
+    private String pattern;
 
     @NotBlank(message = "资源名称不能为空")
     @Schema(description = "资源名称")

@@ -1,8 +1,8 @@
-package com.macaron.corpresent.security.handler;
+package com.macaron.corpresent.security.authorize;
 
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
-import com.macaron.corpresent.common.util.thread.ThreadLocalMapUtil;
+import com.macaron.corpresent.common.util.juc.ThreadLocalMapUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class RestfulAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     public final static String AUTHENTICATION_EXCEPTION_MESSAGE = "Authentication-Exception-Message";
 

@@ -6,12 +6,14 @@ import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import com.macaron.corpresent.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created With Intellij IDEA
@@ -21,6 +23,7 @@ import java.util.List;
  * Time: 10:57
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -32,8 +35,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(Boolean.TRUE.equals(user.getIsBlocked())) {
             throw new GlobalServiceException(GlobalServiceStatusCode.USER_ACCOUNT_BLOCKED);
         }
-        Long userId = user.getId();
-        List<Resource> resourceList = userService.getResourceListByUserId(userId);
-        return new UserResourceDetails(user, resourceList);
+        Set<String> patterns = userService.getResourceListByUserId(user.getId())
+                .stream()
+                .map(Resource::getPattern)
+                .collect(Collectors.toSet());
+        log.info("用户 {} 能够访问的资源：{}", username, patterns);
+        return new UserResourceDetails(user, patterns);
     }
 }

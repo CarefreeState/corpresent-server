@@ -69,7 +69,7 @@ public class RoleController {
     @PutMapping("/update/{roleId}")
     @Operation(summary = "更新一个角色")
     public SystemJsonResponse<?> updateRole(@PathVariable("roleId") @NotNull(message = "角色 id 不能为空") Long roleId,
-                                                @Valid @RequestBody RoleDTO roleDTO) {
+                                            @Valid @RequestBody RoleDTO roleDTO) {
         // 判断角色是否存在
         roleService.checkAndGetRole(roleId);
         // 更新

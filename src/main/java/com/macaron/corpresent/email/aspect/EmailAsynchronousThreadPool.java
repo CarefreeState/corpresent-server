@@ -1,6 +1,6 @@
 package com.macaron.corpresent.email.aspect;
 
-import com.macaron.corpresent.common.util.thread.ThreadPoolUtil;
+import com.macaron.corpresent.common.util.juc.ThreadPoolUtil;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadPoolExecutor;

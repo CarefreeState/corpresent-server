@@ -1,14 +1,13 @@
 package com.macaron.corpresent.security.config;
 
-import com.macaron.corpresent.security.component.DynamicAuthorizationManager;
-import com.macaron.corpresent.security.component.JwtAuthenticationTokenFilter;
-import com.macaron.corpresent.security.handler.RestAuthenticationEntryPoint;
-import com.macaron.corpresent.security.handler.RestfulAccessDeniedHandler;
+import com.macaron.corpresent.security.authenticate.JwtAuthenticationTokenFilter;
+import com.macaron.corpresent.security.authenticate.RestfulAccessDeniedHandler;
+import com.macaron.corpresent.security.authorize.DynamicResourceAuthorizationManager;
+import com.macaron.corpresent.security.authorize.RestfulAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,39 +29,36 @@ public class SecurityConfig {
 
     private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
 
-    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final RestfulAuthenticationEntryPoint restfulAuthenticationEntryPoint;
 
     private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
-    private final DynamicAuthorizationManager dynamicAuthorizationManager;
+    private final DynamicResourceAuthorizationManager dynamicResourceAuthorizationManager;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(registry -> {
-            //不需要保护的资源路径允许访问
-            for (String url : ignoreUrlsConfig.getUrls()) {
-                registry.requestMatchers(url).permitAll();
-            }
-            //允许跨域请求的 OPTIONS 请求
-            registry.requestMatchers(HttpMethod.OPTIONS).permitAll();
-            //任何请求需要身份认证
-        })
-        //任何请求需要身份认证
-        .authorizeHttpRequests(registry-> registry.anyRequest()
-            //有动态权限配置时添加动态权限管理器
-            .access(dynamicAuthorizationManager==null? AuthenticatedAuthorizationManager.authenticated():dynamicAuthorizationManager)
+        httpSecurity.authorizeHttpRequests(registry -> registry
+                // 不需要保护的资源路径允许访问
+                .requestMatchers(ignoreUrlsConfig.getUrls().toArray(new String[0])).permitAll()
+                // 允许跨域请求的 OPTIONS 请求
+                .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                // 默认任何请求都需要认证
+                // 任何请求都通过以下配置鉴权（anyRequest 只能调用一次）
+                .anyRequest().access(dynamicResourceAuthorizationManager)
         )
-        //关闭跨站请求防护
+        // 关闭跨站请求防护
         .csrf(AbstractHttpConfigurer::disable)
-        //修改Session生成策略为无状态会话
-        .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        //自定义权限拒绝处理类
+        // 修改 Session 生成策略为无状态会话
+        .sessionManagement(configurer -> configurer
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        )
+        // 自定义权限拦截器 JWT 过滤器
+        .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+        // 自定义权限拒绝处理类
         .exceptionHandling(configurer -> configurer
                 .accessDeniedHandler(restfulAccessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-        )
-        //自定义权限拦截器JWT过滤器
-        .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationEntryPoint(restfulAuthenticationEntryPoint)
+        );
         return httpSecurity.build();
     }
 

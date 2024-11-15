@@ -15,7 +15,7 @@ public class Resource extends BaseIncrIDEntity implements Serializable {
 
     private Long categoryId;
 
-    private String path;
+    private String pattern;
 
     private String name;
 

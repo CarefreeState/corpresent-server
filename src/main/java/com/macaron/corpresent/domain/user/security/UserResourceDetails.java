@@ -1,6 +1,5 @@
 package com.macaron.corpresent.domain.user.security;
 
-import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -25,14 +24,14 @@ public class UserResourceDetails implements UserDetails {
     private final User user;
 
     //拥有资源列表
-    private final List<Resource> resourceList;
+    private final Set<String> patterns;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //返回当前用户所拥有的资源
-        return resourceList.stream()
-                .map(resource ->new SimpleGrantedAuthority(resource.getId()+":"+resource.getName()))
-                .collect(Collectors.toList());
+        return patterns.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     @Override

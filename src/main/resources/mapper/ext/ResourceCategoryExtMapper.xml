@@ -13,7 +13,7 @@
     <select id="queryResourceCategoryDetail" resultMap="ResourceCategoryDetailMap">
         select
             rc.id, rc.name, rc.create_time,
-            r.id r_id, r.category_id r_category_id, r.path r_path, r.name r_name,
+            r.id r_id, r.category_id r_category_id, r.pattern r_pattern, r.name r_name,
             r.is_blocked r_is_blocked, r.description r_description, r.create_time r_create_time
         from resource_category rc
              left join resource r on rc.id = r.category_id and rc.is_deleted = 0 and r.is_deleted = 0

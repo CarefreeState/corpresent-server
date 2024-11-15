@@ -1,4 +1,4 @@
-package com.macaron.corpresent.common.util.thread;
+package com.macaron.corpresent.common.util.juc;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
