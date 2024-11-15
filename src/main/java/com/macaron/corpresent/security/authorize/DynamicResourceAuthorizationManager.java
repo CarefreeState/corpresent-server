@@ -2,7 +2,7 @@ package com.macaron.corpresent.security.authorize;
 
 import com.macaron.corpresent.common.util.http.HttpRequestUtil;
 import com.macaron.corpresent.common.util.juc.ThreadLocalMapUtil;
-import com.macaron.corpresent.security.config.IgnoreUrlsConfig;
+import com.macaron.corpresent.security.authenticate.RestfulAuthenticationEntryPoint;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -21,8 +21,6 @@ import java.util.function.Supplier;
 @Component
 @RequiredArgsConstructor
 public class DynamicResourceAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
-
-    private final IgnoreUrlsConfig ignoreUrlsConfig;
 
     @Override
     public void verify(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
@@ -45,7 +43,7 @@ public class DynamicResourceAuthorizationManager implements AuthorizationManager
                 return new AuthorizationDecision(granted);
             }
         } catch(Exception e) {
-            ThreadLocalMapUtil.set(RestfulAuthenticationEntryPoint.AUTHENTICATION_EXCEPTION_MESSAGE, e.getMessage());
+            ThreadLocalMapUtil.set(RestfulAuthorizationDeniedHandler.ACCESS_DENIED_EXCEPTION_MESSAGE, e.getMessage());
         }
         return new AuthorizationDecision(Boolean.FALSE);
     }

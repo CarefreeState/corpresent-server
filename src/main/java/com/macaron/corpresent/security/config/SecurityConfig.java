@@ -1,9 +1,9 @@
 package com.macaron.corpresent.security.config;
 
 import com.macaron.corpresent.security.authenticate.JwtAuthenticationTokenFilter;
-import com.macaron.corpresent.security.authenticate.RestfulAccessDeniedHandler;
+import com.macaron.corpresent.security.authorize.RestfulAuthorizationDeniedHandler;
 import com.macaron.corpresent.security.authorize.DynamicResourceAuthorizationManager;
-import com.macaron.corpresent.security.authorize.RestfulAuthenticationEntryPoint;
+import com.macaron.corpresent.security.authenticate.RestfulAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     private final IgnoreUrlsConfig ignoreUrlsConfig;
 
-    private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    private final RestfulAuthorizationDeniedHandler restfulAuthorizationDeniedHandler;
 
     private final RestfulAuthenticationEntryPoint restfulAuthenticationEntryPoint;
 
@@ -42,8 +42,8 @@ public class SecurityConfig {
                 .requestMatchers(ignoreUrlsConfig.getUrls().toArray(new String[0])).permitAll()
                 // 允许跨域请求的 OPTIONS 请求
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                // 默认任何请求都需要认证
-                // 任何请求都通过以下配置鉴权（anyRequest 只能调用一次）
+                // 默认任何请求都需要
+                // 任何请求都得通过认证鉴权（anyRequest 只能调用一次）
                 .anyRequest().access(dynamicResourceAuthorizationManager)
         )
         // 关闭跨站请求防护
@@ -56,8 +56,8 @@ public class SecurityConfig {
         .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
         // 自定义权限拒绝处理类
         .exceptionHandling(configurer -> configurer
-                .accessDeniedHandler(restfulAccessDeniedHandler)
                 .authenticationEntryPoint(restfulAuthenticationEntryPoint)
+                .accessDeniedHandler(restfulAuthorizationDeniedHandler)
         );
         return httpSecurity.build();
     }

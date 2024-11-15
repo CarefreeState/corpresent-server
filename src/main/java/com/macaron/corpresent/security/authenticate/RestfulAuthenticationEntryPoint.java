@@ -1,4 +1,4 @@
-package com.macaron.corpresent.security.authorize;
+package com.macaron.corpresent.security.authenticate;
 
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
@@ -29,6 +29,6 @@ public class RestfulAuthenticationEntryPoint implements AuthenticationEntryPoint
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
         log.error(ThreadLocalMapUtil.append(AUTHENTICATION_EXCEPTION_MESSAGE, e.getMessage()));
         handlerExceptionResolver.resolveException(request, response, null, new GlobalServiceException(
-                GlobalServiceStatusCode.USER_UN_AUTHORIZED));
+                GlobalServiceStatusCode.USER_NO_AUTHENTICATED));
     }
 }

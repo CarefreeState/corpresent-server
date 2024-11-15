@@ -4,6 +4,7 @@ import com.macaron.corpresent.common.util.http.SnowflakeIdGenerator;
 import com.macaron.corpresent.common.util.juc.ThreadLocalMapUtil;
 import com.macaron.corpresent.config.RequestIdConfig;
 import com.macaron.corpresent.jwt.JwtUtil;
+import com.macaron.corpresent.security.authorize.RestfulAuthorizationDeniedHandler;
 import com.macaron.corpresent.security.context.BaseContext;
 import com.macaron.corpresent.security.context.UserHelper;
 import jakarta.servlet.FilterChain;
@@ -59,7 +60,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 BaseContext.setCurrentUser(userHelper);
             }
         } catch (Exception e) {
-            ThreadLocalMapUtil.set(RestfulAccessDeniedHandler.ACCESS_DENIED_EXCEPTION_MESSAGE, e.getMessage());
+            ThreadLocalMapUtil.set(RestfulAuthenticationEntryPoint.AUTHENTICATION_EXCEPTION_MESSAGE, e.getMessage());
         }
         chain.doFilter(request, response);
     }

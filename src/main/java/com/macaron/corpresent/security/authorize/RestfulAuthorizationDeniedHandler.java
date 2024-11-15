@@ -1,4 +1,4 @@
-package com.macaron.corpresent.security.authenticate;
+package com.macaron.corpresent.security.authorize;
 
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
+public class RestfulAuthorizationDeniedHandler implements AccessDeniedHandler {
 
     public final static String ACCESS_DENIED_EXCEPTION_MESSAGE = "Access-Denied_Exception-Message";
 
@@ -29,7 +29,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
         log.error(ThreadLocalMapUtil.append(ACCESS_DENIED_EXCEPTION_MESSAGE, e.getMessage()));
         handlerExceptionResolver.resolveException(request, response, null, new GlobalServiceException(
-                GlobalServiceStatusCode.USER_NO_AUTHENTICATED)
+                GlobalServiceStatusCode.USER_NO_AUTHORIZED)
         );
     }
 }

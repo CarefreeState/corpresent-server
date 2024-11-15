@@ -44,11 +44,11 @@ public enum GlobalServiceStatusCode {
     USER_ACCOUNT_USE_BY_OTHERS(2009, "账号下线"),
     USER_ACCOUNT_REGISTER_ERROR(2010, "账号注册错误"),
 
-    USER_UN_AUTHORIZED(2403, "用户无权限"),
-    USER_NO_AUTHENTICATED(2404, "暂未登录或 token 无效"),
+    USER_NO_AUTHENTICATED(2101, "用户未登录或 token 无效"),
+    USER_NO_AUTHORIZED(2102, "用户无权访问"),
 
-    USER_IDENTIFY_CODE_ERROR(2500, "验证码错误"),
-    USER_USERNAME_PASSWORD_ERROR(2501, "用户名或密码错误"),
+    USER_IDENTIFY_CODE_ERROR(2201, "验证码错误"),
+    USER_USERNAME_PASSWORD_ERROR(2202, "用户名或密码错误"),
 
     /* 邮箱错误 3001-4000 */
     EMAIL_PATTERN_ERROR(3001, "邮箱格式错误"),
@@ -70,12 +70,12 @@ public enum GlobalServiceStatusCode {
     RESOURCE_CATEGORY_NOT_EXISTS(4002, "资源分类不存在"),
     ROLE_NOT_EXISTS(4003, "角色不存在"),
 
-    /* 文件资源错误 6001-7000 */
-    FILE_RESOURCE_NOT_VALID(6001, "文件资源非法"),
-    FILE_RESOURCE_TYPE_NOT_MATCH(6002, "文件资源类型不匹配"),
+    /* 文件资源错误 5001-6000 */
+    FILE_RESOURCE_NOT_VALID(5001, "文件资源非法"),
+    FILE_RESOURCE_TYPE_NOT_MATCH(5002, "文件资源类型不匹配"),
 
-    /* WebSocket想关错误 7001-8000 */
-    USER_NOT_ONLINE(7001, "用户不在线"),
+    /* WebSocket想关错误 6001-7000 */
+    USER_NOT_ONLINE(6001, "用户不在线"),
 
     /* -------------- */;
 
