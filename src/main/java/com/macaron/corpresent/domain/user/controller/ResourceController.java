@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @Validated
-@Tag(name = "资源")
-@RequestMapping("/api/v1/resource")
+@Tag(name = "权限管理（资源）")
+@RequestMapping("/api/v1/security/resource")
 public class ResourceController {
 
     private final ResourceService resourceService;

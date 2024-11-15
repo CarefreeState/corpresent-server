@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -19,69 +20,65 @@ public class RedisCache {
 
     private final RedisCacheSerializer redisCacheSerializer;
 
-    public <K> Boolean expire(final K key, final long timeout, final TimeUnit timeUnit) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        log.info("为 Redis 的键值设置超时时间\t[{}]-[{}  {}]", jsonKey, timeout, timeUnit.name());
-        return redisTemplate.expire(jsonKey, timeout, timeUnit);
+    public Boolean expire(final String key, final long timeout, final TimeUnit timeUnit) {
+        log.info("为 Redis 的键值设置超时时间\t[{}]-[{}  {}]", key, timeout, timeUnit.name());
+        return redisTemplate.expire(key, timeout, timeUnit);
     }
 
-    public <K> long getKeyTTL(final K key, final TimeUnit timeUnit) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        int ttl = redisTemplate.opsForValue().getOperations().getExpire(jsonKey).intValue();
+    public long getKeyTTL(final String key, final TimeUnit timeUnit) {
+        int ttl = redisTemplate.opsForValue().getOperations().getExpire(key).intValue();
         String message = switch (ttl) {
             case -1 -> "没有设置过期时间";
             case -2 -> "key 不存在";
             default -> ttl + TimeUnit.SECONDS.name();
         };
-        log.info("查询 Redis key[{}] 剩余存活时间:{}", jsonKey, message);
+        log.info("查询 Redis key[{}] 剩余存活时间:{}", key, message);
         return timeUnit.convert(ttl, TimeUnit.SECONDS);
     }
 
-    public <K, V> void setObject(final K key, final V value) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <V> void setObject(final String key, final V value) {
         String jsonValue = redisCacheSerializer.toJson(value);
-        log.info("存入 Redis\t[{}]-[{}]", jsonKey, jsonValue);
-        redisTemplate.opsForValue().set(jsonKey, jsonValue);
+        log.info("存入 Redis\t[{}]-[{}]", key, jsonValue);
+        redisTemplate.opsForValue().set(key, jsonValue);
     }
 
-    public <K, V> void setObject(final K key, final V value, final long timout, final TimeUnit timeUnit) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <V> void setObject(final String key, final V value, final long timout, final TimeUnit timeUnit) {
         String jsonValue = redisCacheSerializer.toJson(value);
-        log.info("存入 Redis\t[{}]-[{}]，超时时间:[{}  {}]", jsonKey, jsonValue, timout, timeUnit.name());
-        redisTemplate.opsForValue().set(jsonKey, jsonValue, timout, timeUnit);
+        log.info("存入 Redis\t[{}]-[{}]，超时时间:[{}  {}]", key, jsonValue, timout, timeUnit.name());
+        redisTemplate.opsForValue().set(key, jsonValue, timout, timeUnit);
     }
 
-    public <K, V> Optional<V> getObject(final K key, final Class<V> vClazz) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        String jsonValue = redisTemplate.opsForValue().get(jsonKey);
-        log.info("查询 Redis\t[{}]-[{}]", jsonKey, jsonValue);
+    public <V> Optional<V> getObject(final String key, final Class<V> vClazz) {
+        String jsonValue = redisTemplate.opsForValue().get(key);
+        log.info("查询 Redis\t[{}]-[{}]", key, jsonValue);
         return Optional.ofNullable(redisCacheSerializer.parse(jsonValue, vClazz));
     }
 
-    public <K> Boolean deleteObject(final K key) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        log.info("删除 Redis 的键值\tkey[{}]", jsonKey);
-        return redisTemplate.delete(jsonKey);
+    public Boolean deleteObject(final String key) {
+        log.info("删除 Redis 的键值\tkey[{}]", key);
+        return redisTemplate.delete(key);
     }
 
-    public <K> Long decrement(final K key) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        Long number = redisTemplate.opsForValue().decrement(jsonKey);
-        log.info("Redis key[{}] 自减后：{}", jsonKey, number);
+    public void deleteObjects(final Collection<String> keys) {
+        log.info("删除 Redis 的键值\tkeys[{}]", keys);
+        redisTemplate.delete(keys);
+    }
+
+    public Long decrement(final String key) {
+        Long number = redisTemplate.opsForValue().decrement(key);
+        log.info("Redis key[{}] 自减后：{}", key, number);
         return number;
     }
 
-    public <K> Long increment(final K key) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        Long number = redisTemplate.opsForValue().increment(jsonKey);
-        log.info("Redis key[{}] 自增后：{}", jsonKey, number);
+    public Long increment(final String key) {
+        Long number = redisTemplate.opsForValue().increment(key);
+        log.info("Redis key[{}] 自增后：{}", key, number);
         return number;
     }
 
-    public <K> Boolean isExists(final K key) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        Boolean flag = redisTemplate.hasKey(jsonKey);
-        log.info("查询 Redis 的键值是否存在\t[{}]-[{}]", jsonKey, flag);
+    public Boolean isExists(final String key) {
+        Boolean flag = redisTemplate.hasKey(key);
+        log.info("查询 Redis 的键值是否存在\t[{}]-[{}]", key, flag);
         return flag;
     }
 

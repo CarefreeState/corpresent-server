@@ -1,5 +1,6 @@
 package com.macaron.corpresent.jwt;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,8 +22,6 @@ public class JwtUtil {
     // 设置秘钥明文
     private static final JwtProperties JWT_PROPERTIES = SpringUtil.getBean(JwtProperties.class);
 
-    private static final JwtRawDataSerializer JWT_RAW_DATA_SERIALIZER = SpringUtil.getBean(JwtRawDataSerializer.class);
-
     public static final String JWT_HEADER = JWT_PROPERTIES.getTokenName();
 
     public static final String JWT_KEY = JWT_PROPERTIES.getSecretKey();
@@ -35,13 +34,15 @@ public class JwtUtil {
 
     public static final TimeUnit JWT_UNIT = TimeUnit.DAYS;
 
+    private static final String CUSTOM_CLAIMS_KEY = "custom";
+
     // 生成加密后的秘钥 secretKey
     public static SecretKey generalKey() {
         byte[] encodedKey = Base64.getDecoder().decode(JwtUtil.JWT_KEY);
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 
-    private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid, TimeUnit timeUnit) {
+    private static <T> JwtBuilder getJwtBuilder(String subject, T claims, Long ttlMillis, String uuid, TimeUnit timeUnit) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         SecretKey secretKey = generalKey();
         long nowMillis = System.currentTimeMillis();
@@ -53,31 +54,41 @@ public class JwtUtil {
         }
         long expMillis = nowMillis + ttlMillis;
         Date expDate = new Date(expMillis);
+
+        Map<String, Object> customClaims = new HashMap<>();
+        customClaims.put(CUSTOM_CLAIMS_KEY, BeanUtil.beanToMap(claims));
         return Jwts.builder()
-//                .setClaims() // 设置自定义载荷
-                .setId(uuid)              //唯一的ID
-                .setSubject(subject)   // 主题  可以是 JSON 数据
-                .setIssuer(APPLICATION_NAME)     // 签发者
-                .setIssuedAt(now)      // 签发时间
-                .signWith(signatureAlgorithm, secretKey) //使用 HS256 对称加密算法签名, 第二个参数为秘钥
-                .setExpiration(expDate); // 失效时间
+                // 设置自定义载荷
+                .setClaims(customClaims)
+                // 唯一的ID
+                .setId(uuid)
+                // 主题，可以是 JSON 数据
+                .setSubject(subject)
+                // 签发者
+                .setIssuer(APPLICATION_NAME)
+                // 签发时间
+                .setIssuedAt(now)
+                //使用 HS256 对称加密算法签名, 第二个参数为秘钥
+                .signWith(signatureAlgorithm, secretKey)
+                // 失效时间
+                .setExpiration(expDate);
     }
 
     public static String getUUID(){
         return UUID.randomUUID().toString().replace("-", "");
     }
 
-    public static String createJwt(String subject, Long ttlMillis, String id, TimeUnit timeUnit) {
-        JwtBuilder builder = getJwtBuilder(subject, ttlMillis, id, timeUnit);// 设置过期时间
+    public static <T> String createJwt(String subject, T claims, Long ttlMillis, String id, TimeUnit timeUnit) {
+        JwtBuilder builder = getJwtBuilder(subject, claims, ttlMillis, id, timeUnit);
         return builder.compact();
     }
 
-    public static String createJwt(String subject, Long ttlMillis, TimeUnit timeUnit) {
-        return createJwt(subject, ttlMillis, getUUID(), timeUnit);
+    public static <T> String createJwt(String subject, T claims, Long ttlMillis, TimeUnit timeUnit) {
+        return createJwt(subject, claims, ttlMillis, getUUID(), timeUnit);
     }
 
-    public static String createJwt(String subject) {
-        return createJwt(subject, null, null);
+    public static <T> String createJwt(String subject, T claims) {
+        return createJwt(subject, claims, null, null);
     }
 
     public static Claims parseJwt(String jwt) {
@@ -96,29 +107,6 @@ public class JwtUtil {
         return getJwtTTL(parseJwt(jwt));
     }
 
-    public static boolean judgeApproachExpiration(Claims claims) {
-        return getJwtTTL(claims) < JWT_UNIT.toMillis(JWT_REFRESH_TIME);
-    }
-
-    public static boolean judgeApproachExpiration(String jwt) {
-        return judgeApproachExpiration(parseJwt(jwt));
-    }
-
-    // 解析
-    public static String parseJwtRawData(String jwt) {
-        return parseJwt(jwt).getSubject();
-    }
-
-    // 解析并无感刷新
-    public static String parseJwtRawData(String jwt, HttpServletResponse response) {
-        Claims claims = parseJwt(jwt);
-        String subject = claims.getSubject();
-        if(Objects.nonNull(response) && judgeApproachExpiration(claims)) {
-            response.setHeader(JWT_HEADER, createJwt(subject));
-        }
-        return subject;
-    }
-
     public static <T> T getJwtKeyValue(String jwt, String key, Class<T> clazz) {
         return parseJwt(jwt).get(key, clazz);
     }
@@ -133,7 +121,6 @@ public class JwtUtil {
         return result;
     }
 
-    // 过期的话 parseJwt(jwt) 会抛异常，也就是 “没抛异常能解析成功就是校验成功”，但是异常 ExpiredJwtException 的 getClaims 方法能获取到 payload
     public static boolean isTokenExpired(String jwt) {
         return getExpiredDate(jwt).before(new Date());
     }
@@ -147,19 +134,29 @@ public class JwtUtil {
         return Boolean.TRUE;
     }
 
-    public static <T> String createJwt(T subject) {
-        return createJwt(JWT_RAW_DATA_SERIALIZER.toJson(subject));
+    public static boolean judgeApproachExpiration(Claims claims) {
+        return getJwtTTL(claims) < JWT_UNIT.toMillis(JWT_REFRESH_TIME);
     }
 
-    public static <T> T parseJwt(String jwt, Class<T> clazz) {
-        return JWT_RAW_DATA_SERIALIZER.parse(parseJwtRawData(jwt), clazz);
+    public static boolean judgeApproachExpiration(String jwt) {
+        return judgeApproachExpiration(parseJwt(jwt));
     }
 
-    public static <T> T parseJwt(HttpServletRequest request, HttpServletResponse response, Class<T> clazz) {
+    // 解析并无感刷新
+    public static <T> T parseJwtData(String jwt, T data, HttpServletResponse response) {
+        Claims claims = parseJwt(jwt);
+        data = BeanUtil.fillBeanWithMap(claims.get(CUSTOM_CLAIMS_KEY, Map.class), data, Boolean.TRUE);
+        String subject = claims.getSubject();
+        if(Objects.nonNull(response) && judgeApproachExpiration(claims)) {
+            response.setHeader(JWT_HEADER, createJwt(subject, data));
+        }
+        return data;
+    }
+
+    public static <T> T parseJwt(HttpServletRequest request, HttpServletResponse response, T data) {
         return Optional.ofNullable(request.getHeader(JWT_HEADER))
                 .filter(StringUtils::hasText)
-                .map(token -> parseJwtRawData(token, response))
-                .map(raw -> JWT_RAW_DATA_SERIALIZER.parse(raw, clazz))
+                .map(token -> parseJwtData(token, data, response))
                 .orElse(null);
     }
 

@@ -2,6 +2,7 @@ package com.macaron.corpresent.domain.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.macaron.corpresent.common.util.convert.ObjectUtil;
+import com.macaron.corpresent.domain.user.annotation.ResourceClear;
 import com.macaron.corpresent.domain.user.model.dao.mapper.RoleResourceRelationMapper;
 import com.macaron.corpresent.domain.user.model.dto.AssignResourceDTO;
 import com.macaron.corpresent.domain.user.model.entity.RoleResourceRelation;
@@ -28,6 +29,7 @@ public class RoleResourceRelationServiceImpl extends ServiceImpl<RoleResourceRel
 
     @Override
     @Transactional
+    @ResourceClear
     public void createRoleResourceRelation(Long roleId, AssignResourceDTO assignResourceDTO) {
         // 删除原有关系
         removeRoleResourceRelation(roleId);
@@ -44,6 +46,7 @@ public class RoleResourceRelationServiceImpl extends ServiceImpl<RoleResourceRel
     }
 
     @Override
+    @ResourceClear
     public void removeRoleResourceRelation(Long roleId) {
         this.lambdaUpdate()
                 .eq(RoleResourceRelation::getRoleId, roleId)

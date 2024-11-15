@@ -9,12 +9,12 @@ import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.domain.user.constants.UserConstants;
 import com.macaron.corpresent.domain.user.model.converter.UserConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.UserMapper;
-import com.macaron.corpresent.domain.user.model.dto.AssignRoleDTO;
 import com.macaron.corpresent.domain.user.model.dto.SortUserDTO;
 import com.macaron.corpresent.domain.user.model.dto.UserDTO;
 import com.macaron.corpresent.domain.user.model.dto.UserQueryDTO;
 import com.macaron.corpresent.domain.user.model.entity.Resource;
 import com.macaron.corpresent.domain.user.model.entity.User;
+import com.macaron.corpresent.domain.user.model.entity.UserRoleRelation;
 import com.macaron.corpresent.domain.user.model.vo.UserQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.UserVO;
 import com.macaron.corpresent.domain.user.service.UserService;
@@ -103,10 +103,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             user.setSort((this.count() + 1) * BASE_SORT_NUMBER);
             this.save(user);
             // 设置默认角色
-            AssignRoleDTO assignRoleDTO = AssignRoleDTO.builder()
-                    .roleIds(List.of(UserConstants.DEFAULT_ROLE))
-                    .build();
-            userRoleRelationService.createUserRoleRelation(user.getId(), assignRoleDTO);
+            UserRoleRelation userRoleRelation = new UserRoleRelation();
+            userRoleRelation.setUserId(user.getId());
+            userRoleRelation.setRoleId(UserConstants.DEFAULT_ROLE);
+            userRoleRelationService.save(userRoleRelation);
             return user;
         }, () -> null);
     }

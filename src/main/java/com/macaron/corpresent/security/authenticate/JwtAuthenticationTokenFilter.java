@@ -45,7 +45,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         response.setHeader(requestIdConfig.getHeader(), String.valueOf(requestId));
         try {
             // 解析 token
-            UserHelper userHelper = JwtUtil.parseJwt(request, response, UserHelper.class);
+            UserHelper userHelper = JwtUtil.parseJwt(request, response, new UserHelper());
             String username = userHelper.getUsername();
             log.info("checking username:{}", username);
             if (StringUtils.hasText(username)) {

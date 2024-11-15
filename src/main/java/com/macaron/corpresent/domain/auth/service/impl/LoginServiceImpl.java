@@ -3,6 +3,7 @@ package com.macaron.corpresent.domain.auth.service.impl;
 import cn.hutool.extra.spring.SpringUtil;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
+import com.macaron.corpresent.domain.auth.constants.AuthConstants;
 import com.macaron.corpresent.domain.auth.model.dto.LoginDTO;
 import com.macaron.corpresent.domain.auth.model.vo.LoginVO;
 import com.macaron.corpresent.domain.auth.service.LoginService;
@@ -40,7 +41,7 @@ public class LoginServiceImpl implements LoginService {
                 .username(user.getUsername())
                 .build();
         return LoginVO.builder()
-                .token(JwtUtil.createJwt(userHelper))
+                .token(JwtUtil.createJwt(AuthConstants.JWT_SUBJECT, userHelper))
                 .build();
     }
 }

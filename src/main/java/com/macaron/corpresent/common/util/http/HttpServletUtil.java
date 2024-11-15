@@ -80,19 +80,23 @@ public class HttpServletUtil {
         return getHost(request) + uri;
     }
 
+    private static boolean ipAddressIsValid(String ipAddress) {
+        return !StringUtils.hasText(ipAddress) || "unknown".equalsIgnoreCase(ipAddress);
+    }
+
     /**
      * 获取请求真实IP地址
      */
     public static String getIP(HttpServletRequest request) {
-        //通过HTTP代理服务器转发时添加
+        //通过 HTTP 代理服务器转发时添加
         String ipAddress = request.getHeader("x-forwarded-for");
-        if (!StringUtils.hasText(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddressIsValid(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
         }
-        if (!StringUtils.hasText(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddressIsValid(ipAddress)) {
             ipAddress = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (!StringUtils.hasText(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddressIsValid(ipAddress)) {
             ipAddress = request.getRemoteAddr();
             // 从本地访问时根据网卡取本机配置的IP
             if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {

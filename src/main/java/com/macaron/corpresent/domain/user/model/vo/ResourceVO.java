@@ -1,7 +1,6 @@
 package com.macaron.corpresent.domain.user.model.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -30,7 +29,6 @@ public class ResourceVO {
     @Schema(description = "资源描述")
     private String description;
 
-    @NotNull(message = "是否禁用不能为空")
     @Schema(description = "是否禁用")
     private Boolean isBlocked;
 

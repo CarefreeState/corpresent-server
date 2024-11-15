@@ -27,45 +27,41 @@ public class RedisSetCache {
 
     private final RedisCacheSerializer redisCacheSerializer;
 
-    public <K, E> void addAll(final K key, final Set<E> set) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <E> void addAll(final String key, final Set<E> set) {
         Set<String> jsonSet = redisCacheSerializer.toJson(set);
-        log.info("存入 Redis 中的 Set 缓存\t[{}]-[{}]", jsonKey, jsonSet);
+        log.info("存入 Redis 中的 Set 缓存\t[{}]-[{}]", key, jsonSet);
         String[] jsonArr = jsonSet.toArray(new String[0]);
-        redisTemplate.opsForSet().add(jsonKey, jsonArr);
+        redisTemplate.opsForSet().add(key, jsonArr);
     }
 
-    public <K, E> void addAllOver(final K key, final Set<E> set) {
+    public <E> void addAllOver(final String key, final Set<E> set) {
         redisCache.deleteObject(key);
         addAll(key, set);
     }
 
-    public <K, E> void init(final K key, final Set<E> set, final long timeout, final TimeUnit timeUnit) {
+    public <E> void init(final String key, final Set<E> set, final long timeout, final TimeUnit timeUnit) {
         addAllOver(key, set);
         redisCache.expire(key, timeout, timeUnit);
     }
 
-    public <K, E> Optional<Set<E>> getSet(final K key, final Class<E> eClazz) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        Set<String> jsonSet = redisTemplate.opsForSet().members(jsonKey);
-        log.info("获取 Redis 中的 Set 缓存\t[{}]-[{}]", jsonKey, jsonSet);
+    public <E> Optional<Set<E>> getSet(final String key, final Class<E> eClazz) {
+        Set<String> jsonSet = redisTemplate.opsForSet().members(key);
+        log.info("获取 Redis 中的 Set 缓存\t[{}]-[{}]", key, jsonSet);
         Set<E> set = redisCacheSerializer.parse(jsonSet, eClazz);
         return Optional.ofNullable(set).filter(s -> !s.isEmpty());
     }
 
-    public <K, E> Boolean contains(final K key, final E e) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <E> Boolean contains(final String key, final E e) {
         String jsonE = redisCacheSerializer.toJson(key);
-        Boolean flag = getSet(jsonKey, e.getClass()).map(set -> set.contains(jsonE)).orElse(Boolean.FALSE);
-        log.info("查询 Redis 的 Set 的值是否存在\t[{}.{}]-[{}]", jsonKey, jsonE, flag);
+        Boolean flag = getSet(key, e.getClass()).map(set -> set.contains(jsonE)).orElse(Boolean.FALSE);
+        log.info("查询 Redis 的 Set 的值是否存在\t[{}.{}]-[{}]", key, jsonE, flag);
         return flag;
     }
 
-    public <K, E> void remove(final K key, final E e) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        String jsonE = redisCacheSerializer.toJson(key);
-        log.info("删除 Redis 中的 Set 的值\tkey[{}.{}]", jsonKey, jsonE);
-        redisTemplate.opsForSet().remove(jsonKey, jsonE);
+    public <E> void remove(final String key, final E e) {
+        String jsonE = redisCacheSerializer.toJson(e);
+        log.info("删除 Redis 中的 Set 的值\tkey[{}.{}]", key, jsonE);
+        redisTemplate.opsForSet().remove(key, jsonE);
     }
 
 }

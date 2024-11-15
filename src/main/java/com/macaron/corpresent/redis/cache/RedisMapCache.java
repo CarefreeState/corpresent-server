@@ -28,71 +28,64 @@ public class RedisMapCache {
 
     private final RedisCacheSerializer redisCacheSerializer;
 
-    public <K, HK, HV> void putAll(final K key, final Map<HK, HV> map) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <HK, HV> void putAll(final String key, final Map<HK, HV> map) {
         Map<String, String> jsonMap = redisCacheSerializer.toJson(map);
-        log.info("Map 存入 Redis\t[{}]-[{}]", jsonKey, jsonMap);
-        redisTemplate.opsForHash().putAll(jsonKey, jsonMap);
+        log.info("Map 存入 Redis\t[{}]-[{}]", key, jsonMap);
+        redisTemplate.opsForHash().putAll(key, jsonMap);
     }
 
-    public <K, HK, HV> void putAllOver(final K key, final Map<HK, HV> map) {
+    public <HK, HV> void putAllOver(final String key, final Map<HK, HV> map) {
         redisCache.deleteObject(key);
         putAll(key, map);
     }
 
-    public <K, HK, HV> void init(final K key, final Map<HK, HV> map, long timeout, final TimeUnit timeUnit) {
+    public <HK, HV> void init(final String key, final Map<HK, HV> map, long timeout, final TimeUnit timeUnit) {
         putAllOver(key, map);
         redisCache.expire(key, timeout, timeUnit);
     }
 
-    public <K, HK, HV> Optional<Map<HK, HV>> getMap(final K key, final Class<HK> hkClazz, final Class<HV> hvClazz) {
-        String jsonKey = redisCacheSerializer.toJson(key);
-        Map<String, String> jsonMap = redisTemplate.opsForHash().entries(jsonKey).entrySet().stream().collect(Collectors.toMap(
+    public <HK, HV> Optional<Map<HK, HV>> getMap(final String key, final Class<HK> hkClazz, final Class<HV> hvClazz) {
+        Map<String, String> jsonMap = redisTemplate.opsForHash().entries(key).entrySet().stream().collect(Collectors.toMap(
                 entry -> String.valueOf(entry.getKey()),
                 entry -> String.valueOf(entry.getValue()),
                 (oldData, newData) -> newData
         ));
-        log.info("获取 Redis 中的 Map 缓存\t[{}]-[{}]", jsonKey, jsonMap);
+        log.info("获取 Redis 中的 Map 缓存\t[{}]-[{}]", key, jsonMap);
         Map<HK, HV> map = redisCacheSerializer.parse(jsonMap, hkClazz, hvClazz);
         return Optional.ofNullable(map).filter(m -> !m.isEmpty());
     }
 
-    public <K, HK, HV> void put(final K key, final HK hashKey, final HV hashValue) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <HK, HV> void put(final String key, final HK hashKey, final HV hashValue) {
         String jsonHashKey = redisCacheSerializer.toJson(hashKey);
         String jsonHashValue = redisCacheSerializer.toJson(hashValue);
-        log.info("存入 Redis 的某个 Map\t[{}.{}]-[{}]", jsonKey, jsonHashKey, jsonHashValue);
-        redisTemplate.opsForHash().put(jsonKey, jsonHashKey, jsonHashValue);
+        log.info("存入 Redis 的某个 Map\t[{}.{}]-[{}]", key, jsonHashKey, jsonHashValue);
+        redisTemplate.opsForHash().put(key, jsonHashKey, jsonHashValue);
     }
 
-    public <K, HK, HV> Optional<HV> get(final K key, final HK hashKey, final Class<HV> hvClazz) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <HK, HV> Optional<HV> get(final String key, final HK hashKey, final Class<HV> hvClazz) {
         String jsonHashKey = redisCacheSerializer.toJson(hashKey);
-        String hashValue = (String) redisTemplate.opsForHash().get(jsonKey, jsonHashKey);
-        log.info("获取 Redis 中的 Map 的键值\t[{}.{}]-[{}]", jsonKey, jsonKey, hashValue);
+        String hashValue = (String) redisTemplate.opsForHash().get(key, jsonHashKey);
+        log.info("获取 Redis 中的 Map 的键值\t[{}.{}]-[{}]", key, key, hashValue);
         return Optional.ofNullable(redisCacheSerializer.parse(hashValue, hvClazz));
     }
 
-    public <K, HK> long increment(final K key, final HK hashKey, final long delta) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <HK> long increment(final String key, final HK hashKey, final long delta) {
         String jsonHashKey = redisCacheSerializer.toJson(hashKey);
-        long number = redisTemplate.opsForHash().increment(jsonKey, jsonHashKey, delta);
-        log.info("Redis key[{}.{}] {} 后：{}", jsonKey, jsonHashKey, delta, number);
+        long number = redisTemplate.opsForHash().increment(key, jsonHashKey, delta);
+        log.info("Redis key[{}.{}] {} 后：{}", key, jsonHashKey, delta, number);
         return number;
     }
 
-    public <K, HK> void remove(final K key, final HK hashKey) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <HK> void remove(final String key, final HK hashKey) {
         String jsonHashKey = redisCacheSerializer.toJson(hashKey);
-        log.info("删除 Redis 中的 Map 的键值\tkey[{}.{}]", jsonKey, jsonHashKey);
-        redisTemplate.opsForHash().delete(jsonKey, jsonHashKey);
+        log.info("删除 Redis 中的 Map 的键值\tkey[{}.{}]", key, jsonHashKey);
+        redisTemplate.opsForHash().delete(key, jsonHashKey);
     }
 
-    public <K, HK> Boolean containsKey(final K key, final HK hashKey) {
-        String jsonKey = redisCacheSerializer.toJson(key);
+    public <HK> Boolean containsKey(final String key, final HK hashKey) {
         String jsonHashKey = redisCacheSerializer.toJson(hashKey);
-        Boolean flag = redisTemplate.opsForHash().hasKey(jsonKey, jsonHashKey);
-        log.info("查询 Redis 的 Map 的键值是否存在\t[{}.{}]-[{}]", jsonKey, jsonHashKey, flag);
+        Boolean flag = redisTemplate.opsForHash().hasKey(key, jsonHashKey);
+        log.info("查询 Redis 的 Map 的键值是否存在\t[{}.{}]-[{}]", key, jsonHashKey, flag);
         return flag;
     }
 

@@ -31,8 +31,8 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
-@Tag(name = "角色")
-@RequestMapping("/api/v1/role")
+@Tag(name = "权限管理（角色）")
+@RequestMapping("/api/v1/security/role")
 public class RoleController {
 
     private final ResourceService resourceService;

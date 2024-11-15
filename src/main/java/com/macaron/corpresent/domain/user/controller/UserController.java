@@ -31,7 +31,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
-@Tag(name = "用户")
+@Tag(name = "用户管理")
 @RequestMapping("/api/v1/user")
 public class UserController {
 

@@ -7,6 +7,7 @@ import com.macaron.corpresent.common.base.BasePageResult;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.convert.ObjectUtil;
+import com.macaron.corpresent.domain.user.annotation.ResourceClear;
 import com.macaron.corpresent.domain.user.model.converter.RoleConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.RoleMapper;
 import com.macaron.corpresent.domain.user.model.dto.RoleDTO;
@@ -58,6 +59,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     }
 
     @Override
+    @ResourceClear
     public void removeRole(Long roleId) {
         this.lambdaUpdate()
                 .eq(Role::getId, roleId)
@@ -65,6 +67,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     }
 
     @Override
+    @ResourceClear
     public void updateRole(Long roleId, RoleDTO roleDTO) {
         this.lambdaUpdate()
                 .eq(Role::getId, roleId)

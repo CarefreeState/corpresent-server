@@ -7,6 +7,7 @@ import com.macaron.corpresent.common.base.BasePageResult;
 import com.macaron.corpresent.common.enums.GlobalServiceStatusCode;
 import com.macaron.corpresent.common.exception.GlobalServiceException;
 import com.macaron.corpresent.common.util.convert.ObjectUtil;
+import com.macaron.corpresent.domain.user.annotation.ResourceClear;
 import com.macaron.corpresent.domain.user.model.converter.ResourceConverter;
 import com.macaron.corpresent.domain.user.model.dao.mapper.ResourceMapper;
 import com.macaron.corpresent.domain.user.model.dto.ResourceDTO;
@@ -18,6 +19,9 @@ import com.macaron.corpresent.domain.user.model.vo.ResourceQueryVO;
 import com.macaron.corpresent.domain.user.model.vo.ResourceVO;
 import com.macaron.corpresent.domain.user.service.ResourceCategoryService;
 import com.macaron.corpresent.domain.user.service.ResourceService;
+import com.macaron.corpresent.redis.cache.RedisCache;
+import com.macaron.corpresent.redis.lock.RedisLock;
+import com.macaron.corpresent.redis.lock.strategy.WriteLockStrategy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,6 +43,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
     implements ResourceService{
+
+    private final RedisLock redisLock;
+
+    private final RedisCache redisCache;
+
+    private final WriteLockStrategy writeLockStrategy;
 
     private final ResourceCategoryService resourceCategoryService;
 
@@ -63,6 +73,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
     }
 
     @Override
+    @ResourceClear
     public void removeResource(Long resourceId) {
         this.lambdaUpdate()
                 .eq(Resource::getId, resourceId)
@@ -70,6 +81,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource>
     }
 
     @Override
+    @ResourceClear
     public void updateResource(Long resourceId, ResourceDTO resourceDTO) {
         this.lambdaUpdate()
                 .eq(Resource::getId, resourceId)

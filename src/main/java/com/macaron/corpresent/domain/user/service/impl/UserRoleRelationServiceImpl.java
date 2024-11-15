@@ -2,6 +2,7 @@ package com.macaron.corpresent.domain.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.macaron.corpresent.common.util.convert.ObjectUtil;
+import com.macaron.corpresent.domain.user.annotation.ResourceClear;
 import com.macaron.corpresent.domain.user.model.dao.mapper.UserRoleRelationMapper;
 import com.macaron.corpresent.domain.user.model.dto.AssignRoleDTO;
 import com.macaron.corpresent.domain.user.model.entity.UserRoleRelation;
@@ -27,6 +28,7 @@ public class UserRoleRelationServiceImpl extends ServiceImpl<UserRoleRelationMap
 
     @Override
     @Transactional
+    @ResourceClear(isSpecified = true)
     public void createUserRoleRelation(Long userId, AssignRoleDTO assignRoleDTO) {
         // 删除原有关系
         removeUserRoleRelation(userId);
@@ -43,6 +45,7 @@ public class UserRoleRelationServiceImpl extends ServiceImpl<UserRoleRelationMap
     }
 
     @Override
+    @ResourceClear(isSpecified = true)
     public void removeUserRoleRelation(Long userId) {
         this.lambdaUpdate()
                 .eq(UserRoleRelation::getUserId, userId)
