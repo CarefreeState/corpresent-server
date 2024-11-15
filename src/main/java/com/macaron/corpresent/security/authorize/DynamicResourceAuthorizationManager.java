@@ -2,7 +2,6 @@ package com.macaron.corpresent.security.authorize;
 
 import com.macaron.corpresent.common.util.http.HttpRequestUtil;
 import com.macaron.corpresent.common.util.juc.ThreadLocalMapUtil;
-import com.macaron.corpresent.security.authenticate.RestfulAuthenticationEntryPoint;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authorization.AuthorizationDecision;
