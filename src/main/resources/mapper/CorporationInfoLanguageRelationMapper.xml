@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macaron.corpresent.domain.corporation.model.dao.mapper.CorporationInfoLanguageRelationMapper">
+
+    <resultMap id="BaseResultMap" type="com.macaron.corpresent.domain.corporation.model.entity.CorporationInfoLanguageRelation">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="corporationId" column="corporation_id" jdbcType="BIGINT"/>
+            <result property="languageId" column="language_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="BIT"/>
+            <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+            <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,corporation_id,language_id,
+        name,introduction,address,
+        version,is_deleted,create_time,
+        update_time
+    </sql>
+</mapper>
